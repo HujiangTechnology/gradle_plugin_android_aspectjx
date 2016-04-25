@@ -1,0 +1,25 @@
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+}
+
+apply from: '../ext.gradle'
+
+["../gradle.properties", "gradle.properties"].each {
+    File propertiesFile = new File(it)
+    if (propertiesFile.exists()) {
+        Properties properties = new Properties()
+        propertiesFile.withInputStream {
+            properties.load(it)
+        }
+        properties.entrySet().each {
+            project.ext.set(it.key, it.value)
+        }
+    }
+}
+
+dependencies {
+    runtime 'com.android.tools.build:gradle:2.1.+'
+    runtime project(':aspectjx')
+}

@@ -1,0 +1,37 @@
+apply from: 'ext.gradle'
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'org.aspectj:aspectjtools:1.8.+'
+    }
+}
+
+allprojects {
+    buildscript {
+        repositories {
+            mavenLocal()
+            mavenCentral()
+            jcenter()
+        }
+    }
+    
+    dependencies {
+        repositories {
+            mavenLocal()
+            mavenCentral()
+            jcenter()
+        }
+    }
+
+    apply plugin: 'maven'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.10'
+}

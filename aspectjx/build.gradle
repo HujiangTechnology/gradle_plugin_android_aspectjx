@@ -1,0 +1,103 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.3'
+    }
+}
+
+apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'nexus'
+apply plugin: 'idea'
+
+targetCompatibility = JavaVersion.VERSION_1_7
+sourceCompatibility = JavaVersion.VERSION_1_7
+
+group = GROUP
+version = VERSION_NAME
+
+configurations {
+    provided
+}
+
+dependencies {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+    }
+
+    compile gradleApi()
+    compile localGroovy()
+
+    provided 'com.android.tools.build:gradle:2.1.+'
+    compile "org.aspectj:aspectjtools:${aspectjVersion}"
+    compile "org.aspectj:aspectjrt:${aspectjVersion}"
+    compile 'com.android.tools.build:transform-api:2.0.+'
+
+    testCompile 'com.android.tools.build:gradle:2.1.+'
+    testCompile 'junit:junit:4.10'
+    testCompile 'org.easytesting:fest-assert-core:2.0M10'
+}
+
+sourceSets {
+    main.compileClasspath += configurations.provided
+}
+
+idea {
+    module {
+        scopes.PROVIDED.plus += [configurations.provided]
+    }
+}
+
+install {
+    repositories.mavenInstaller {
+        pom.artifactId = 'aspectjx'
+    }
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        pom.artifactId = 'aspectjx'
+    }
+}
+
+modifyPom {
+    project {
+        name "Android AspectJ Plugin"
+        description POM_DESCRIPTION
+        url POM_URL
+        inceptionYear '2016'
+
+        scm {
+            url POM_SCM_URL
+            connection POM_SCM_CONNECTION
+            developerConnection POM_SCM_DEV_CONNECTION
+        }
+
+        licenses {
+            license {
+                name POM_LICENCE_NAME
+                url POM_LICENCE_URL
+                distribution POM_LICENCE_DIST
+            }
+        }
+
+        developers {
+            developer {
+                id POM_DEVELOPER_ID
+                name POM_DEVELOPER_NAME
+            }
+        }
+
+        organization {
+            name POM_ORGANIZATION_NAME
+            url POM_ORGANIZATION_URL
+        }
+    }
+}
