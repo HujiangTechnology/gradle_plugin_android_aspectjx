@@ -53,6 +53,17 @@ apply plugin: 'com.hujiang.android-aspectjx'
 
 [AspectJ NoteBook](https://eclipse.org/aspectj/doc/released/adk15notebook/index.html)
 
+
+Contact
+----------
+
+email:xiaoming1109@gmail.com
+
+QQ:541136835
+
+微信:13386016339
+
+
 License
 -------
 
