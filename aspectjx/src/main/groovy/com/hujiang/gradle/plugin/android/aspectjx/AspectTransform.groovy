@@ -15,7 +15,7 @@ import org.gradle.api.Project
 import org.gradle.api.tasks.compile.JavaCompile
 
 /**
- * aspectjx transform
+ * aspectj transform
  * @author simon
  * @version 1.0.0
  * @since 2016-03-29

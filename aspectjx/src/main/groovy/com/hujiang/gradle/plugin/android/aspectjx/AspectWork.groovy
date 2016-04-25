@@ -7,7 +7,7 @@ import org.gradle.api.GradleException
 import org.gradle.api.Project
 
 /**
- * aspectjx weave code logic here
+ * aspectj weave code logic here
  * @author simon
  * @version 1.0.0
  * @since 2016-04-20
@@ -77,7 +77,7 @@ class AspectWork {
             args << getAspectPath().join(File.pathSeparator)
         }
 
-        println "AspectjCompile:args:" + Arrays.toString(args as String[])
+//        println "AspectjCompile:args:" + Arrays.toString(args as String[])
 
         MessageHandler handler = new MessageHandler(true);
         new Main().run(args as String[], handler);

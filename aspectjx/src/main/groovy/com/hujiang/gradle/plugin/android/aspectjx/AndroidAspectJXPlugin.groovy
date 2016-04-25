@@ -7,7 +7,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 /**
- * aspectjx plugin,
+ * aspectj plugin,
  * @author simon
  * @version 1.0.0
  * @since 2016-04-20
@@ -22,7 +22,7 @@ class AndroidAspectJXPlugin implements Plugin<Project> {
         }
 
         project.dependencies {
-            compile 'org.aspectjx:aspectjrt:1.8.+'
+            compile 'org.aspectj:aspectjrt:1.8.+'
         }
 
         if (project.plugins.hasPlugin(AppPlugin)) {
