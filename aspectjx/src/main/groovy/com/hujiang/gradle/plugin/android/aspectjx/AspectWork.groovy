@@ -24,18 +24,8 @@ class AspectWork {
     public String targetCompatibility
     public String destinationDir
 
-    protected List<File> source = new ArrayList<File>();
-
     AspectWork(Project proj) {
         project = proj
-    }
-
-    public List<File> getSource() {
-        return source;
-    }
-
-    public void setSource(List<File> source) {
-        this.source = source;
     }
 
     void doWork() {
@@ -66,7 +56,6 @@ class AspectWork {
                 "-d", destinationDir,
                 "-classpath", classPath.join(File.pathSeparator),
                 "-bootclasspath", bootClassPath
-//                "-sourceroots", getSourceRoots().join(File.pathSeparator)
         ]
         if (!getInPath().isEmpty()) {
             args << '-inpath'
@@ -76,8 +65,6 @@ class AspectWork {
             args << '-aspectpath'
             args << getAspectPath().join(File.pathSeparator)
         }
-
-//        println "AspectjCompile:args:" + Arrays.toString(args as String[])
 
         MessageHandler handler = new MessageHandler(true);
         new Main().run(args as String[], handler);
@@ -165,17 +152,4 @@ class AspectWork {
     public void setDestinationDir(String destinationDir) {
         this.destinationDir = destinationDir;
     }
-//
-//    File[] getSourceRoots() {
-//        def sourceRoots = []
-//
-//        for (File f : source) {
-//            if (f.exists()) {
-//                sourceRoots << f
-//                println ">>>>>>>${f.path}::${f.exists()}"
-//            }
-//        }
-//
-//        return sourceRoots
-//    }
 }

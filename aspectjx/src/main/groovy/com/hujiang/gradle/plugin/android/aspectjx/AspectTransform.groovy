@@ -39,26 +39,6 @@ class AspectTransform extends Transform {
                 aspectWork.bootClassPath = configuration.bootClasspath.join(File.pathSeparator)
                 aspectWork.sourceCompatibility = javaCompile.sourceCompatibility
                 aspectWork.targetCompatibility = javaCompile.targetCompatibility
-
-                List<File> sourceSets = new ArrayList<File>()
-                variant.variantData.extraGeneratedSourceFolders.each {
-                    sourceSets.add(it)
-
-                    println "${it.path}"
-                }
-                variant.variantData.javaSources.each {
-                    if (it instanceof File) {
-                        sourceSets.add(it)
-                        println "${it.path}"
-                    } else {
-                        it.asFileTrees.each {
-                            sourceSets.add(it.dir)
-                            println "${it.dir.path}"
-                        }
-                    }
-                }
-
-                aspectWork.source = sourceSets
             }
         }
     }
@@ -101,28 +81,17 @@ class AspectTransform extends Transform {
         }
         FileUtils.mkdirs(resultDir);
 
-        println "resultDir:" + resultDir
 
         aspectWork.destinationDir = resultDir.absolutePath
         //
         for (TransformInput transformInput : inputs) {
             for (DirectoryInput directoryInput : transformInput.directoryInputs) {
-                File dest = outputProvider.getContentLocation(directoryInput.name, directoryInput.contentTypes, directoryInput.scopes, Format.DIRECTORY)
-
-                println "dest:" + dest.absolutePath
                 aspectWork.aspectPath << directoryInput.file
                 aspectWork.inPath << directoryInput.file
                 aspectWork.classPath << directoryInput.file
             }
 
             for (JarInput jarInput : transformInput.jarInputs) {
-                String jarName = jarInput.name
-                if (jarName.endsWith(".jar")) {
-                    jarName = jarName.substring(0, jarName.length() - 4)
-                }
-
-                File dest = outputProvider.getContentLocation(jarName, jarInput.contentTypes, jarInput.scopes, Format.JAR)
-                println "dest:" + dest.absolutePath
                 aspectWork.aspectPath << jarInput.file
                 aspectWork.inPath << jarInput.file
                 aspectWork.classPath << jarInput.file
