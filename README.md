@@ -19,16 +19,16 @@ gradle_plugin_android_aspectjx
 
 > **gradle_plugin_android_aspectjx**是基于 gradle android插件1.5及以上版本设计的，如果你还在用1.3或者更低版本，请把版本升上去。
 
-> gradle_plugin_android_aspectjx是使用在application module的插件, 虽然用在library module上也不会出错,但是不生效。
+> **gradle_plugin_android_aspectjx**是使用在application module的插件, 虽然用在library module上也不会出错,但是不生效。
 
 * 路径依赖
 
 ```
  dependencies {
-        classpath 'com.hujiang.gradle.plugin.android:aspectjx:1.0.1'
+        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:1.0.1'
         }
 ```
-* 或者使用product目录下的jar包，在你的项目根目录下新建目录plugins，把product/aspectx-1.0.1.jar拷贝到plugins，依赖jar包
+* 或者使用product目录下的jar包，在你的项目根目录下新建目录plugins，把product/gradle-android-plugin-aspectjx-1.0.1.jar拷贝到plugins，依赖jar包
 
 ```
 dependencies {
