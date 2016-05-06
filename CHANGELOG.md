@@ -1,3 +1,7 @@
+Version 1.0.2 *(2016-05-04)*
+----------------------------
+add extensions aspectjx.jarFilter
+
 Version 1.0.1 *(2016-05-04)*
 ----------------------------
 change groupID, artifactID as 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:1.0.1'

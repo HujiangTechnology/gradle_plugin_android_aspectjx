@@ -83,18 +83,48 @@ class AspectTransform extends Transform {
 
 
         aspectWork.destinationDir = resultDir.absolutePath
-        //
+
+        List<String> jarFilter = project.aspectjx.jarFilter
+
         for (TransformInput transformInput : inputs) {
             for (DirectoryInput directoryInput : transformInput.directoryInputs) {
+
+                println "directoryInput:::${directoryInput.file.absolutePath}"
+
                 aspectWork.aspectPath << directoryInput.file
                 aspectWork.inPath << directoryInput.file
                 aspectWork.classPath << directoryInput.file
             }
 
             for (JarInput jarInput : transformInput.jarInputs) {
+
+                println "jarInput::::${jarInput.file.absolutePath}"
+
                 aspectWork.aspectPath << jarInput.file
-                aspectWork.inPath << jarInput.file
                 aspectWork.classPath << jarInput.file
+
+                if (jarFilter == null || jarFilter.isEmpty()) {
+                    aspectWork.inPath << jarInput.file
+                } else {
+                    boolean isJarFilterMatched = false
+                    for (String filter : jarFilter) {
+                        if (jarInput.file.absolutePath.contains(filter)) {
+                            aspectWork.inPath << jarInput.file
+                            isJarFilterMatched = true
+                            break
+                        }
+                    }
+
+                    if (!isJarFilterMatched) {
+                        String jarName = jarInput.name
+                        if (jarName.endsWith(".jar")) {
+                            jarName = jarName.substring(0, jarName.length() - 4)
+                        }
+
+                        File dest = outputProvider.getContentLocation(jarName, jarInput.contentTypes, jarInput.scopes, Format.JAR)
+                        org.apache.commons.io.FileUtils.copyFile(jarInput.file, dest)
+                    }
+                }
             }
         }
 

@@ -25,6 +25,8 @@ class AndroidAspectJXPlugin implements Plugin<Project> {
             compile 'org.aspectj:aspectjrt:1.8.+'
         }
 
+        project.extensions.create("aspectjx", AspectjExtension)
+
         if (project.plugins.hasPlugin(AppPlugin)) {
             //build time trace
             project.gradle.addListener(new TimeTrace())

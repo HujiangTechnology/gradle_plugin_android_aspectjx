@@ -25,14 +25,16 @@ gradle_plugin_android_aspectjx
 
 ```
  dependencies {
-        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:1.0.1'
+        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:1.0.2'
         }
 ```
-* 或者使用product目录下的jar包，在你的项目根目录下新建目录plugins，把product/gradle-android-plugin-aspectjx-1.0.1.jar拷贝到plugins，依赖jar包
+* 或者使用product目录下的jar包，在你的项目根目录下新建目录plugins，把product/gradle-android-plugin-aspectjx-1.0.2.jar拷贝到plugins，依赖jar包
 
 ```
 dependencies {
         classpath fileTree(dir:'plugins', include:['*.jar'])
+        //注意不能少了aspectjtools的依赖
+        classpath 'org.aspectj:aspectjtools:1.8.+'
         }
 ```
 
@@ -43,6 +45,18 @@ apply plugin: 'android-aspectjx'
 //或者这样也可以
 apply plugin: 'com.hujiang.android-aspectjx'
 ```
+
+* aspectjx配置
+
+aspectjx默认情况会遍历项目的所有class及依赖的jar， aar库去找需要织入代码的地方。为了提升编译效率，你可以加入过滤条件去指定需要织入代码的jar, 忽略不满足过滤条件的jar。例如
+
+```
+aspectjx {
+	//指定只对指定条件的库进行织入遍历，忽略其他库
+	jarFilter 'universal-image-loader', 'AspectJX-Demo/library'
+}
+```
+
 
 **到此为止，gradle_plugin_android_aspectjx的接入就完成了，但是要AspectJ发挥作用还需要你自己写切片代码，可以参考[AspectJ Demo](https://github.com/HujiangTechnology/AspectJ-Demo)**
 

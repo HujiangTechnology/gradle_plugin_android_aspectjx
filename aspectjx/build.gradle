@@ -39,5 +39,5 @@ dependencies {
     testCompile 'org.easytesting:fest-assert-core:2.0M10'
 }
 
-//apply from: 'bintray.gradle'
-//apply from: 'maven.gradle'
+apply from: 'bintray.gradle'
+apply from: 'maven.gradle'
