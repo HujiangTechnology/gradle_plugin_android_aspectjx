@@ -8,13 +8,22 @@ package com.hujiang.gradle.plugin.android.aspectjx
  */
 class AspectjExtension {
 
-    List<String> jarFilter = new ArrayList<String>()
+    List<String> includeJarFilter = new ArrayList<String>()
+    List<String> excludeJarFilter = new ArrayList<String>()
 
-    public AspectjExtension jarFilter(String...filters) {
+    public AspectjExtension includeJarFilter(String...filters) {
         if (filters != null) {
-            jarFilter.addAll(filters)
+            includeJarFilter.addAll(filters)
         }
 
-        return this;
+        return this
+    }
+
+    public AspectjExtension excludeJarFilter(String...filters) {
+        if (filters != null) {
+            excludeJarFilter.addAll(filters)
+        }
+
+        return this
     }
 }

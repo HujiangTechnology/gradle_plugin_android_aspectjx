@@ -13,6 +13,8 @@ import com.android.utils.FileUtils
 import com.google.common.collect.ImmutableSet
 import org.gradle.api.Project
 import org.gradle.api.tasks.compile.JavaCompile
+import org.gradle.util.TextUtil
+import org.junit.Assert
 
 /**
  * aspectj transform
@@ -84,7 +86,10 @@ class AspectTransform extends Transform {
 
         aspectWork.destinationDir = resultDir.absolutePath
 
-        List<String> jarFilter = project.aspectjx.jarFilter
+        List<String> includeJarFilter = project.aspectjx.includeJarFilter
+        List<String> excludeJarFilter = project.aspectjx.excludeJarFilter
+
+        println "jarFilter:" + includeJarFilter
 
         for (TransformInput transformInput : inputs) {
             for (DirectoryInput directoryInput : transformInput.directoryInputs) {
@@ -98,36 +103,87 @@ class AspectTransform extends Transform {
 
             for (JarInput jarInput : transformInput.jarInputs) {
 
-                println "jarInput::::${jarInput.file.absolutePath}"
-
                 aspectWork.aspectPath << jarInput.file
                 aspectWork.classPath << jarInput.file
 
-                if (jarFilter == null || jarFilter.isEmpty()) {
+                String jarPath = jarInput.file.absolutePath
+                if (isIncludeFilterMatched(jarPath, includeJarFilter)
+                    && !isExcludeFilterMatched(jarPath, excludeJarFilter)) {
+                    println "includeJar:::${jarPath}"
                     aspectWork.inPath << jarInput.file
                 } else {
-                    boolean isJarFilterMatched = false
-                    for (String filter : jarFilter) {
-                        if (jarInput.file.absolutePath.contains(filter)) {
-                            aspectWork.inPath << jarInput.file
-                            isJarFilterMatched = true
-                            break
-                        }
-                    }
-
-                    if (!isJarFilterMatched) {
-                        String jarName = jarInput.name
-                        if (jarName.endsWith(".jar")) {
-                            jarName = jarName.substring(0, jarName.length() - 4)
-                        }
-
-                        File dest = outputProvider.getContentLocation(jarName, jarInput.contentTypes, jarInput.scopes, Format.JAR)
-                        org.apache.commons.io.FileUtils.copyFile(jarInput.file, dest)
-                    }
+                    println "excludeJar:::${jarPath}"
+                    copyJar(outputProvider, jarInput)
                 }
             }
         }
 
         aspectWork.doWork()
+    }
+
+    boolean isExcludeFilterMatched(String str, List<String> filters) {
+        return isFilterMatched(str, filters, FilterPolicy.EXCLUDE)
+    }
+
+    boolean  isIncludeFilterMatched(String str, List<String> filters) {
+        return isFilterMatched(str, filters, FilterPolicy.INCLUDE)
+    }
+
+    boolean isFilterMatched(String str, List<String> filters, FilterPolicy filterPolicy) {
+        if(str == null) {
+            return false
+        }
+
+        if (filters == null || filters.isEmpty()) {
+            return filterPolicy == FilterPolicy.INCLUDE
+        }
+
+        for (String s : filters) {
+            if (isContained(str, s)) {
+                return true
+            }
+        }
+
+        return false
+    }
+
+    boolean copyJar(TransformOutputProvider outputProvider, JarInput jarInput) {
+        if (outputProvider == null || jarInput == null) {
+            return false
+        }
+
+        String jarName = jarInput.name
+        if (jarName.endsWith(".jar")) {
+            jarName = jarName.substring(0, jarName.length() - 4)
+        }
+
+        File dest = outputProvider.getContentLocation(jarName, jarInput.contentTypes, jarInput.scopes, Format.JAR)
+        org.apache.commons.io.FileUtils.copyFile(jarInput.file, dest)
+
+        return true
+    }
+
+    boolean isContained(String str, String filter) {
+        if (str == null) {
+            return false
+        }
+
+        String filterTmp = filter
+        if (str.contains(filterTmp)) {
+            return true
+        } else {
+            if (filterTmp.contains("/")) {
+                return str.contains(filterTmp.replace("/", File.separator))
+            } else if (filterTmp.contains("\\")) {
+                return str.contains(filterTmp.replace("\\", File.separator))
+            }
+        }
+
+        return false
+    }
+
+    enum FilterPolicy {
+        INCLUDE
+        , EXCLUDE
     }
 }
