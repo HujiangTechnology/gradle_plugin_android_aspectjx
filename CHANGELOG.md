@@ -1,3 +1,9 @@
+Version 1.0.3 *(2016-06-01)*
+----------------------------
+1. remove extension aspectjx.jarFilter
+2. add extension aspectjx.includeJarFilter, aspectjx.excludeJarFilter
+3. solve slash problem("/", "\\") on windows, unix like system
+
 Version 1.0.2 *(2016-05-04)*
 ----------------------------
 add extensions aspectjx.jarFilter

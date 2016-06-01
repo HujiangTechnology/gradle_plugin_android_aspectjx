@@ -13,6 +13,8 @@ gradle_plugin_android_aspectjx
  
  该项目的设计参考了大神**JakeWharton**的[Hugo]项目及**uPhyca**的[gradle-android-aspectj-plugin]项目的设计思想，并在它们的基础上扩展支持AAR, JAR及Kotlin的应用。在此感谢JakeWharton和uPhyca.[跪拜]
 
+[Change Log](CHANGELOG.md)
+----------
 
 使用
 -----
@@ -25,10 +27,10 @@ gradle_plugin_android_aspectjx
 
 ```
  dependencies {
-        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:1.0.2'
+        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:1.0.3'
         }
 ```
-* 或者使用product目录下的jar包，在你的项目根目录下新建目录plugins，把product/gradle-android-plugin-aspectjx-1.0.2.jar拷贝到plugins，依赖jar包
+* 或者使用product目录下的jar包，在你的项目根目录下新建目录plugins，把product/gradle-android-plugin-aspectjx-1.0.3.jar拷贝到plugins，依赖jar包
 
 ```
 dependencies {
@@ -53,12 +55,17 @@ aspectjx默认情况会遍历项目的所有class及依赖的jar， aar库去找
 ```
 aspectjx {
 	//指定只对指定条件的库进行织入遍历，忽略其他库
-	jarFilter 'universal-image-loader', 'AspectJX-Demo/library'
+	includeJarFilter 'universal-image-loader', 'AspectJX-Demo/library'
+	//排除包含‘universal-image-loader’的jar库
+	excludeJarFilter 'universal-image-loader'
 }
 ```
 
 
-**到此为止，gradle_plugin_android_aspectjx的接入就完成了，但是要AspectJ发挥作用还需要你自己写切片代码，可以参考[AspectJ Demo](https://github.com/HujiangTechnology/AspectJ-Demo)**
+**到此为止，gradle_plugin_android_aspectjx的接入就完成了，但是要AspectJ发挥作用还需要你自己写切片代码，可以参考：**
+
+1. [支持kotlin的AspectJ Demo](https://github.com/HujiangTechnology/AspectJ-Demo)
+2. [用aspectjx实现的简单、方便、省事的Android M动态权限配置框架](https://github.com/firefly1126/android_permission_aspectjx)
 
 **不了解AspectJ的请自行了解，参考：**
 
@@ -69,7 +76,6 @@ aspectjx {
 [AspectJ Development Environment Guide](https://eclipse.org/aspectj/doc/released/devguide/index.html)
 
 [AspectJ NoteBook](https://eclipse.org/aspectj/doc/released/adk15notebook/index.html)
-
 
 Contact
 ----------
