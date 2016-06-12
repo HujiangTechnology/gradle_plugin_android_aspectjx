@@ -11,10 +11,9 @@ import com.android.build.api.transform.TransformInput
 import com.android.build.api.transform.TransformOutputProvider
 import com.android.utils.FileUtils
 import com.google.common.collect.ImmutableSet
+import org.aspectj.util.FileUtil
 import org.gradle.api.Project
 import org.gradle.api.tasks.compile.JavaCompile
-import org.gradle.util.TextUtil
-import org.junit.Assert
 
 /**
  * aspectj transform
@@ -89,8 +88,6 @@ class AspectTransform extends Transform {
         List<String> includeJarFilter = project.aspectjx.includeJarFilter
         List<String> excludeJarFilter = project.aspectjx.excludeJarFilter
 
-        println "jarFilter:" + includeJarFilter
-
         for (TransformInput transformInput : inputs) {
             for (DirectoryInput directoryInput : transformInput.directoryInputs) {
 
@@ -158,7 +155,8 @@ class AspectTransform extends Transform {
         }
 
         File dest = outputProvider.getContentLocation(jarName, jarInput.contentTypes, jarInput.scopes, Format.JAR)
-        org.apache.commons.io.FileUtils.copyFile(jarInput.file, dest)
+
+        FileUtil.copyFile(jarInput.file, dest)
 
         return true
     }

@@ -1,4 +1,8 @@
 Version 1.0.3 *(2016-06-01)*
+-----------------------------
+1. fix duplicate commons-io files error.
+
+Version 1.0.3 *(2016-06-01)*
 ----------------------------
 1. remove extension aspectjx.jarFilter
 2. add extension aspectjx.includeJarFilter, aspectjx.excludeJarFilter

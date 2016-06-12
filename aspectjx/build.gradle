@@ -1,7 +1,6 @@
 buildscript {
     repositories {
         mavenLocal()
-        mavenCentral()
         jcenter()
     }
 
@@ -22,7 +21,6 @@ sourceCompatibility = JavaVersion.VERSION_1_7
 dependencies {
     repositories {
         mavenLocal()
-        mavenCentral()
         jcenter()
     }
 
@@ -32,11 +30,8 @@ dependencies {
     compile 'com.android.tools.build:gradle:2.1.+'
     compile "org.aspectj:aspectjtools:${aspectjVersion}"
     compile "org.aspectj:aspectjrt:${aspectjVersion}"
-    compile 'com.android.tools.build:transform-api:2.0.+'
-
-    testCompile 'com.android.tools.build:gradle:2.1.+'
-    testCompile 'junit:junit:4.10'
-    testCompile 'org.easytesting:fest-assert-core:2.0M10'
+    compile 'com.android.tools.build:transform-api:1.5.0'
+//    compile 'commons-io:commons-io:2.4'
 }
 
 apply from: 'bintray.gradle'
