@@ -1,5 +1,6 @@
 package com.hujiang.gradle.plugin.android.aspectjx
 
+import com.android.SdkConstants
 import com.android.build.api.transform.Context
 import com.android.build.api.transform.DirectoryInput
 import com.android.build.api.transform.Format
@@ -9,11 +10,15 @@ import com.android.build.api.transform.Transform
 import com.android.build.api.transform.TransformException
 import com.android.build.api.transform.TransformInput
 import com.android.build.api.transform.TransformOutputProvider
+import com.android.build.gradle.internal.transforms.JarMerger
+import com.android.builder.signing.SignedJarBuilder
 import com.android.utils.FileUtils
 import com.google.common.collect.ImmutableSet
 import org.aspectj.util.FileUtil
 import org.gradle.api.Project
 import org.gradle.api.tasks.compile.JavaCompile
+
+import static com.android.utils.FileUtils.deleteIfExists
 
 /**
  * aspectj transform
@@ -75,13 +80,13 @@ class AspectTransform extends Transform {
                    , TransformOutputProvider outputProvider
                    , boolean isIncremental) throws IOException, TransformException, InterruptedException {
 
+        println "aspect start.........."
         //create aspect destination dir
         File resultDir = outputProvider.getContentLocation("aspect", getOutputTypes(), getScopes(), Format.DIRECTORY);
         if (resultDir.exists()) {
             FileUtils.deleteFolder(resultDir)
         }
         FileUtils.mkdirs(resultDir);
-
 
         aspectWork.destinationDir = resultDir.absolutePath
 
@@ -115,7 +120,39 @@ class AspectTransform extends Transform {
             }
         }
 
+        //aspect work
         aspectWork.doWork()
+
+        //add class file to aspect result jar
+        println "aspect jar merging.........."
+        if (resultDir.listFiles().length > 0) {
+            File jarFile = outputProvider.getContentLocation("aspected", getOutputTypes(), getScopes(),
+                    Format.JAR);
+            FileUtils.mkdirs(jarFile.getParentFile());
+            deleteIfExists(jarFile);
+
+            JarMerger jarMerger = new JarMerger(jarFile);
+            try {
+                jarMerger.setFilter(new SignedJarBuilder.IZipEntryFilter() {
+                    @Override
+                    public boolean checkEntry(String archivePath)
+                            throws SignedJarBuilder.IZipEntryFilter.ZipAbortException {
+                        return archivePath.endsWith(SdkConstants.DOT_CLASS);
+                    }
+                });
+
+                jarMerger.addFolder(resultDir)
+            } catch (Exception e) {
+                throw new TransformException(e)
+            } finally {
+                jarMerger.close()
+            }
+
+        }
+
+        FileUtils.deleteFolder(resultDir)
+
+        println "aspect done..................."
     }
 
     boolean isExcludeFilterMatched(String str, List<String> filters) {

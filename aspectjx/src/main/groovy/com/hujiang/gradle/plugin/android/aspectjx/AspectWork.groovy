@@ -29,6 +29,7 @@ class AspectWork {
     }
 
     void doWork() {
+        println "aspect do work.........."
         final def log = project.logger
 
         //http://www.eclipse.org/aspectj/doc/released/devguide/ajc-ref.html

@@ -27,7 +27,7 @@ gradle_plugin_android_aspectjx
 
 ```
  dependencies {
-        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:1.0.4'
+        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:1.0.5'
         }
 ```
 * 或者使用product目录下的jar包，在你的项目根目录下新建目录plugins，把product/gradle-android-plugin-aspectjx-1.0.4.jar拷贝到plugins，依赖jar包
