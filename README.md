@@ -2,74 +2,120 @@
 [dexposed]:https://github.com/alibaba/dexposed
 [Hugo]:https://github.com/JakeWharton/hugo
 [gradle-android-aspectj-plugin]:https://github.com/uPhyca/gradle-android-aspectj-plugin
+[question issue]:https://github.com/HujiangTechnology/gradle_plugin_android_aspectjx/issues
 
-gradle_plugin_android_aspectjx
+aspectjx
 ==================================
 
- 一个在Android中应用Aspectj的Gradle插件。支持切AAR, JAR， 支持现在Android上最火的Kotlin。 
- 
- 
- 开发该项目的原因是基于还没有发现目前的开源库中比较好的AOP框架或者工具，虽然[xposed]，[dexposed]非常强大，但由于Android的碎片化比较严重，兼容问题永远是一座无法逾越的大山。而且发现的AspectJ相关插件都不支持AAR或者JAR切入的，对于目前在Android圈很火爆的Kotlin更加无能为力。
- 
- 该项目的设计参考了大神**JakeWharton**的[Hugo]项目及**uPhyca**的[gradle-android-aspectj-plugin]项目的设计思想，并在它们的基础上扩展支持AAR, JAR及Kotlin的应用。在此感谢JakeWharton和uPhyca.[跪拜]
+A gradle plugin that supports using AspectJ in android project. can weave third party libs and [kotlin code](https://kotlinlang.org/)
 
-[Change Log](CHANGELOG.md)
-----------
+## [中文版本](README-zh.md)
 
-使用
------
+## why born
 
-> **gradle_plugin_android_aspectjx**是基于 gradle android插件1.5及以上版本设计的，如果你还在用1.3或者更低版本，请把版本升上去。
+There is no perfect AOP tools or framework on android, even though [xposed] and [dexposed] are fantastic libs, but not compatible for all Android system versions.And some of the AspectJ plugins can not work well on libs(aar, jar) and kotlin code.
 
-> **gradle_plugin_android_aspectjx**是使用在application module的插件, 虽然用在library module上也不会出错,但是不生效。
+**aspectjx** takes some great ideas from **JakeWharton**'s project [Hugo] and **uPhyca**'s [gradle-android-aspectj-plugin], and extends the ability to support aar, jar, kotlin. Thanks to **JakeWharton** and **uPhyca**.
 
-* 路径依赖
+## How to use
+
+> Before using **aspectjx**, Android gradle plugin version must be greater than or equal `1.5.0`, and **aspectjx** must be used in `application module`, not `library module`.
+
+#### i. dependency
 
 ```
- dependencies {
+dependencies {
         classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:1.0.5'
         }
 ```
-* 或者使用product目录下的jar包，在你的项目根目录下新建目录plugins，把product/gradle-android-plugin-aspectjx-1.0.4.jar拷贝到plugins，依赖jar包
+
+OR
+
+using **JAR** from [product](product/). Make new directory named as **plugins**, and put **product/gradle-android-plugin-aspectjx-1.0.5.jar** in **plugins**, then do as below:
 
 ```
 dependencies {
         classpath fileTree(dir:'plugins', include:['*.jar'])
-        //注意不能少了aspectjtools的依赖
+        //don't lost dependency
         classpath 'org.aspectj:aspectjtools:1.8.+'
         }
 ```
 
-* 在app项目的build.gradle里应用插件
+#### ii. using in application module
 
 ```
 apply plugin: 'android-aspectjx'
-//或者这样也可以
-apply plugin: 'com.hujiang.android-aspectjx'
+
 ```
+#### iii. aspectjx extension configuration
 
-* aspectjx配置
-
-aspectjx默认情况会遍历项目的所有class及依赖的jar， aar库去找需要织入代码的地方。为了提升编译效率，你可以加入过滤条件去指定需要织入代码的jar, 忽略不满足过滤条件的jar。例如
+**aspectjx** will scan and weave all **.class** file and **jar**, **aar** by the default，except for add some filter config **includeJarFilter**, **excludeJarFilter**. **includeJarFilter**, **excludeJarFilter** can support **groupId** filter, **artifactId** filter and **dependency path** matching.
 
 ```
 aspectjx {
-	//指定只对指定条件的库进行织入遍历，忽略其他库
+	//includes the libs that you want to weave
 	includeJarFilter 'universal-image-loader', 'AspectJX-Demo/library'
-	//排除包含‘universal-image-loader’的jar库
+	
+	//excludes the libs that you don't want to weave
 	excludeJarFilter 'universal-image-loader'
 }
 ```
 
+* excludes the lib whose groupId is `org.apache.httpcomponents`
 
-**到此为止，gradle_plugin_android_aspectjx的接入就完成了，但是要AspectJ发挥作用还需要你自己写切片代码，可以参考：**
+```
+aspectjx {
+	excludeJarFilter 'org.apache.httpcomponents'
+}
+```
+* exlucdes the lib whose artifactId is `gson`
 
-1. [支持kotlin的AspectJ Demo](https://github.com/HujiangTechnology/AspectJ-Demo)
-2. [用aspectjx实现的简单、方便、省事的Android M动态权限配置框架](https://github.com/firefly1126/android_permission_aspectjx)
+```
+	aspectjx {
+		excludeJarFilter 'gson'
+	}
+```
 
-**不了解AspectJ的请自行了解，参考：**
+* excludes the jar `alisdk-tlog-1.jar`
 
-[AspectJ官网](https://eclipse.org/aspectj/)
+```
+	aspectjx {
+		excludeJarFilter 'alisdk-tlog-1'
+	}
+```
+
+* excludes all dependency libs
+
+```
+aspectjx {
+	excludeJarFilter '.jar'
+}
+```
+
+### iv. Attention
+* IntelliJ now has no tools for AspectJ, Just Annotation Style AspectJ can work on Android studio.  *.aj file can not be compiled . [How to use Annotation Style AspectJ](https://github.com/HujiangTechnology/AspectJ-Demo)
+* AspectJ may not work well on Android studio with Instant Run feature, if so, close the Instant Run feature.
+* **AspectJ** may compile error as below, just exlcudes the associated lib to resolve it.
+
+![](docs/aspectj_err_0.png)
+
+
+
+
+### v. [Feedback](https://github.com/HujiangTechnology/gradle_plugin_android_aspectjx/issues)
+
+
+### vi. [CHANGELOG](CHANGELOG.md)
+
+
+### vii. Reference
+
+
+[How to use Annotation Style AspectJ Demo](https://github.com/HujiangTechnology/AspectJ-Demo)
+[Android M permission lib with aspectjx](https://github.com/firefly1126/android_permission_aspectjx)
+
+
+[AspectJ](https://eclipse.org/aspectj/)
 
 [AspectJ Programming Guide](https://eclipse.org/aspectj/doc/released/progguide/index.html)
 
@@ -77,20 +123,20 @@ aspectjx {
 
 [AspectJ NoteBook](https://eclipse.org/aspectj/doc/released/adk15notebook/index.html)
 
-Contact
-----------
+### Contact
+
 
 email:xiaoming1109@gmail.com
 
 QQ:541136835
 
-微信:13386016339
+wechat:13386016339
 
 
-License
--------
+### License
 
-    Copyright 2016 hujiang, Inc.
+
+    Copyright 2016 firefly1126, Inc.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -103,3 +149,7 @@ License
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.gradle_plugin_android_aspectjx
+
+
+
+
