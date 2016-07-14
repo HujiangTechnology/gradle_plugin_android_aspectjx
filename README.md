@@ -41,6 +41,9 @@ dependencies {
         }
 ```
 
+`ATTENTION`: `compile 'org.aspectj:aspectjrt:1.8.+'` must be added to the modules that contain the AspectJ code, [read the Demo](https://github.com/HujiangTechnology/AspectJX-Demo/blob/master/library/build.gradle)
+
+
 #### ii. using in application module
 
 ```
@@ -111,17 +114,17 @@ aspectjx {
 ### vii. Reference
 
 
-[How to use Annotation Style AspectJ Demo](https://github.com/HujiangTechnology/AspectJ-Demo)
-[Android M permission lib with aspectjx](https://github.com/firefly1126/android_permission_aspectjx)
+* [How to use Annotation Style AspectJ Demo](https://github.com/HujiangTechnology/AspectJ-Demo)
+* [Android M permission lib with aspectjx](https://github.com/firefly1126/android_permission_aspectjx)
 
 
-[AspectJ](https://eclipse.org/aspectj/)
+* [AspectJ](https://eclipse.org/aspectj/)
 
-[AspectJ Programming Guide](https://eclipse.org/aspectj/doc/released/progguide/index.html)
+* [AspectJ Programming Guide](https://eclipse.org/aspectj/doc/released/progguide/index.html)
 
-[AspectJ Development Environment Guide](https://eclipse.org/aspectj/doc/released/devguide/index.html)
+* [AspectJ Development Environment Guide](https://eclipse.org/aspectj/doc/released/devguide/index.html)
 
-[AspectJ NoteBook](https://eclipse.org/aspectj/doc/released/adk15notebook/index.html)
+* [AspectJ NoteBook](https://eclipse.org/aspectj/doc/released/adk15notebook/index.html)
 
 ### Contact
 

@@ -40,6 +40,8 @@ dependencies {
         }
 ```
 
+`注意`: `compile 'org.aspectj:aspectjrt:1.8.+'` 必须添加到包含有AspectJ代码的module. [可以参考Demo](https://github.com/HujiangTechnology/AspectJX-Demo/blob/master/library/build.gradle)
+
 * 在app项目的build.gradle里应用插件
 
 ```
@@ -115,17 +117,17 @@ aspectjx {
 ### 参考
 
 
-[支持kotlin代码织入的AspectJ Demo](https://github.com/HujiangTechnology/AspectJ-Demo)
-[用aspectjx实现的简单、方便、省事的Android M动态权限配置框架](https://github.com/firefly1126/android_permission_aspectjx)
+* [支持kotlin代码织入的AspectJ Demo](https://github.com/HujiangTechnology/AspectJ-Demo)
+* [用aspectjx实现的简单、方便、省事的Android M动态权限配置框架](https://github.com/firefly1126/android_permission_aspectjx)
 
 
-[AspectJ官网](https://eclipse.org/aspectj/)
+* [AspectJ官网](https://eclipse.org/aspectj/)
 
-[AspectJ Programming Guide](https://eclipse.org/aspectj/doc/released/progguide/index.html)
+* [AspectJ Programming Guide](https://eclipse.org/aspectj/doc/released/progguide/index.html)
 
-[AspectJ Development Environment Guide](https://eclipse.org/aspectj/doc/released/devguide/index.html)
+* [AspectJ Development Environment Guide](https://eclipse.org/aspectj/doc/released/devguide/index.html)
 
-[AspectJ NoteBook](https://eclipse.org/aspectj/doc/released/adk15notebook/index.html)
+* [AspectJ NoteBook](https://eclipse.org/aspectj/doc/released/adk15notebook/index.html)
 
 ### 联系方式
 
