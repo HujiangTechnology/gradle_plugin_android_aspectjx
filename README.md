@@ -95,7 +95,7 @@ aspectjx {
 }
 ```
 
-### iv. Attention
+## Attention
 * IntelliJ now has no tools for AspectJ, Just Annotation Style AspectJ can work on Android studio.  *.aj file can not be compiled . [How to use Annotation Style AspectJ](https://github.com/HujiangTechnology/AspectJ-Demo)
 * AspectJ may not work well on Android studio with Instant Run feature, if so, close the Instant Run feature.
 * **AspectJ** may compile error as below, just exlcudes the associated lib to resolve it.
@@ -105,13 +105,13 @@ aspectjx {
 
 
 
-### v. [Feedback](https://github.com/HujiangTechnology/gradle_plugin_android_aspectjx/issues)
+## [Feedback](https://github.com/HujiangTechnology/gradle_plugin_android_aspectjx/issues)
 
 
-### vi. [CHANGELOG](CHANGELOG.md)
+## [CHANGELOG](CHANGELOG.md)
 
 
-### vii. Reference
+## Reference
 
 
 * [How to use Annotation Style AspectJ Demo](https://github.com/HujiangTechnology/AspectJ-Demo)
@@ -126,7 +126,7 @@ aspectjx {
 
 * [AspectJ NoteBook](https://eclipse.org/aspectj/doc/released/adk15notebook/index.html)
 
-### Contact
+## Contact
 
 
 email:xiaoming1109@gmail.com
@@ -136,7 +136,7 @@ QQ:541136835
 wechat:13386016339
 
 
-### License
+## License
 
 
     Copyright 2016 firefly1126, Inc.
