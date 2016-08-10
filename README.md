@@ -25,13 +25,14 @@ There is no perfect AOP tools or framework on android, even though [xposed] and 
 
 ```
 dependencies {
-        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:1.0.5'
+        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:1.0.6'
         }
 ```
 
 OR
 
-using **JAR** from [product](product/). Make new directory named as **plugins**, and put **product/gradle-android-plugin-aspectjx-1.0.5.jar** in **plugins**, then do as below:
+using **JAR** from [product](product/). Make new directory named as **plugins**, and put **product/gradle-android-plugin-aspectjx-1.0.6.jar** in **plugins**,
+ then do as below:
 
 ```
 dependencies {

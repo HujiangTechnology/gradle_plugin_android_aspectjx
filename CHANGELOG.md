@@ -1,3 +1,7 @@
+v1.0.6(2016-08-10)
+------------------
+1. fix: java.lang.NoSuchMethodError occurs if app built to Multi flavors and obfuscated with dexguard.
+
 v1.0.5(2016-07-08)
 ----------------------
 1. fix bug: class lost when build with dexguard

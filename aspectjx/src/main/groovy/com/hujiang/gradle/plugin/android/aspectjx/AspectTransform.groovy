@@ -29,11 +29,13 @@ import static com.android.utils.FileUtils.deleteIfExists
 class AspectTransform extends Transform {
 
     Project project
-    AspectWork aspectWork
+    String encoding
+    String bootClassPath
+    String sourceCompatibility
+    String targetCompatibility
+
     public AspectTransform(Project proj) {
         project = proj
-
-        aspectWork = new AspectWork(project)
 
         def configuration = new AndroidConfiguration(project)
 
@@ -41,10 +43,10 @@ class AspectTransform extends Transform {
             configuration.variants.all { variant ->
                 JavaCompile javaCompile = variant.hasProperty('javaCompiler') ? variant.javaCompiler : variant.javaCompile
 
-                aspectWork.encoding = javaCompile.options.encoding
-                aspectWork.bootClassPath = configuration.bootClasspath.join(File.pathSeparator)
-                aspectWork.sourceCompatibility = javaCompile.sourceCompatibility
-                aspectWork.targetCompatibility = javaCompile.targetCompatibility
+                encoding = javaCompile.options.encoding
+                bootClassPath = configuration.bootClasspath.join(File.pathSeparator)
+                sourceCompatibility = javaCompile.sourceCompatibility
+                targetCompatibility = javaCompile.targetCompatibility
             }
         }
     }
@@ -81,6 +83,15 @@ class AspectTransform extends Transform {
                    , boolean isIncremental) throws IOException, TransformException, InterruptedException {
 
         println "aspect start.........."
+        AspectWork aspectWork = new AspectWork(project)
+        aspectWork.encoding = encoding
+        aspectWork.bootClassPath = bootClassPath
+        aspectWork.sourceCompatibility = sourceCompatibility
+        aspectWork.targetCompatibility = targetCompatibility
+
+        //clean
+        outputProvider.deleteAll()
+
         //create aspect destination dir
         File resultDir = outputProvider.getContentLocation("aspect", getOutputTypes(), getScopes(), Format.DIRECTORY);
         if (resultDir.exists()) {

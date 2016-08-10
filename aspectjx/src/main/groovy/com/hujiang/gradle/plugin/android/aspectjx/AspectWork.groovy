@@ -68,7 +68,8 @@ class AspectWork {
         }
 
         MessageHandler handler = new MessageHandler(true);
-        new Main().run(args as String[], handler);
+        Main m = new Main();
+        m.run(args as String[], handler);
         for (IMessage message : handler.getMessages(null, true)) {
             switch (message.getKind()) {
                 case IMessage.ABORT:
@@ -87,6 +88,8 @@ class AspectWork {
                     break;
             }
         }
+
+        m.quit()
     }
 
 
