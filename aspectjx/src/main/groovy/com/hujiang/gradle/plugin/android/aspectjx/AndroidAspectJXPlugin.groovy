@@ -31,11 +31,9 @@ class AndroidAspectJXPlugin implements Plugin<Project> {
             //build time trace
             project.gradle.addListener(new TimeTrace())
 
-            if (project.aspectjx.enable) {
-                //register AspectTransform
-                AppExtension android = project.extensions.getByType(AppExtension)
-                android.registerTransform(new AspectTransform(project))
-            }
+            //register AspectTransform
+            AppExtension android = project.extensions.getByType(AppExtension)
+            android.registerTransform(new AspectTransform(project))
         }
     }
 }
