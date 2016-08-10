@@ -105,6 +105,22 @@ aspectjx {
 
 ![](docs/aspectj_err_0.png)
 
+* 需要在AOP代码进行hook的类及方法名不能被混淆,需要在混淆配置里keep住, 比如:
+
+```
+package com.hujiang.test;
+
+public class A {
+    public boolean funcA(String args) {
+        ....
+    }
+}
+
+//如果你在AOP代码里对A#funcA(String)进行hook, 那么在混淆配置文件里加上这样的配置
+
+-keep class com.hujiang.test.A {*;}
+
+```
 
 
 

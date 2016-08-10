@@ -103,6 +103,23 @@ aspectjx {
 
 ![](docs/aspectj_err_0.png)
 
+* The Classes and methods that you want to hooked in AOP should not be obfuscated:
+
+```
+package com.hujiang.test;
+
+public class A {
+    public boolean funcA(String args) {
+        ....
+    }
+}
+
+//if you want to hook A#funcA(String) in AOP code, keep this class and method in proguard config file
+
+-keep class com.hujiang.test.A {*;}
+
+```
+
 
 
 
