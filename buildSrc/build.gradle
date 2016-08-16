@@ -20,6 +20,6 @@ apply from: '../ext.gradle'
 }
 
 dependencies {
-    runtime 'com.android.tools.build:gradle:2.1.+'
+    runtime 'com.android.tools.build:gradle:2.1.2'
     runtime project(':aspectjx')
 }

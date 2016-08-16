@@ -1,13 +1,5 @@
 apply plugin: 'maven'
 
-Properties properties = new Properties()
-properties.load(project.file('../local.properties').newDataInputStream())
-
-def nexusReleases = properties.getProperty("nexus.releases")
-def nexusSnapshots = properties.getProperty("nexus.snapshots")
-def nexusUserName = properties.getProperty("nexus.username")
-def nexusPassword = properties.getProperty("nexus.password")
-
 version=LIB_VERSION
 group = LIB_GROUP
 def nexusRepositoryUrl=nexusReleases

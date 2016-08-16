@@ -110,8 +110,8 @@ Properties properties = new Properties()
 properties.load(project.file("../local.properties").newDataInputStream())
 
 bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
+    user = bintrayUser
+    key = bintrayAPIKey
     configurations = ['archives']
     pkg {
         repo = "maven"
