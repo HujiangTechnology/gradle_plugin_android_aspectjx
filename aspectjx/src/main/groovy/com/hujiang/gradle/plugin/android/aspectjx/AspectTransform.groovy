@@ -10,15 +10,11 @@ import com.android.build.api.transform.Transform
 import com.android.build.api.transform.TransformException
 import com.android.build.api.transform.TransformInput
 import com.android.build.api.transform.TransformOutputProvider
-import com.android.build.gradle.internal.transforms.JarMerger
-import com.android.builder.signing.SignedJarBuilder
-import com.android.utils.FileUtils
 import com.google.common.collect.ImmutableSet
 import org.aspectj.util.FileUtil
 import org.gradle.api.Project
 import org.gradle.api.tasks.compile.JavaCompile
 
-import static com.android.utils.FileUtils.deleteIfExists
 
 /**
  * aspectj transform
@@ -137,20 +133,20 @@ class AspectTransform extends Transform {
         //add class file to aspect result jar
         println "aspect jar merging.........."
         if (resultDir.listFiles().length > 0) {
-            File jarFile = outputProvider.getContentLocation("aspected", getOutputTypes(), getScopes(),
-                    Format.JAR);
-            FileUtils.mkdirs(jarFile.getParentFile());
-            deleteIfExists(jarFile);
+            File jarFile = outputProvider.getContentLocation("aspected", getOutputTypes(), getScopes(), Format.JAR);
+            FileUtils.mkdirs(jarFile.getParentFile())
+            FileUtils.deleteIfExists(jarFile)
 
             JarMerger jarMerger = new JarMerger(jarFile);
             try {
-                jarMerger.setFilter(new SignedJarBuilder.IZipEntryFilter() {
+                jarMerger.setFilter(new JarMerger.IZipEntryFilter() {
                     @Override
                     public boolean checkEntry(String archivePath)
-                            throws SignedJarBuilder.IZipEntryFilter.ZipAbortException {
+                            throws JarMerger.IZipEntryFilter.ZipAbortException {
                         return archivePath.endsWith(SdkConstants.DOT_CLASS);
                     }
                 });
+
 
                 jarMerger.addFolder(resultDir)
             } catch (Exception e) {

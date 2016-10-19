@@ -1,3 +1,6 @@
+### v1.0.8(2016-10-19)
+* fix compatible bug on android plugin 2.2
+
 ### v1.0.7(2016-10-18)
 * supports android build plugin 2.2
 
