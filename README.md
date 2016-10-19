@@ -7,6 +7,40 @@
 aspectjx
 ==================================
 
+##跟原版的区别：（pr 已提）
+在原有的基础上兼容了 com.android.tools.build:gradle:2.2.0  
+问题类如下：  
+com.android.utils.FileUtils  
+com.android.build.gradle.internal.transforms.JarMerger  
+com.android.builder.signing.SignedJarBuilder  
+代码直接从原来的类中抽取出来。  
+由于pr 还没被合进去。如果你是使用的是2.2.0 的版本，并且你想马上使用。可以使用我提供的插件。  
+期待pr能被合进去。。。  
+build.gradle  
+~~~
+buildscript {
+    repositories {
+        jcenter()
+        maven { url "https://jitpack.io" }
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.github.zzz40500:gradle_plugin_android_aspectjx:v1.0.7'
+        classpath 'org.aspectj:aspectjtools:1.8.+'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+~~~
+app/build.gradle  
+~~~
+apply plugin: 'android-aspectjx'
+~~~
+
+
+
+
 A gradle plugin that supports using AspectJ in android project. can weave third party libs and [kotlin code](https://kotlinlang.org/)
 
 ## [中文版本](README-zh.md)
