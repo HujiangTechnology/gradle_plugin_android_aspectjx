@@ -1,3 +1,8 @@
+/*
+ * FileUtils		2016-10-19
+ * Copyright (c) 2016 hujiang Co.Ltd. All right reserved(http://www.hujiang.com).
+ * 
+ */
 package com.hujiang.gradle.plugin.android.aspectjx;
 
 import com.android.annotations.NonNull;
@@ -6,13 +11,16 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Created by dim on 16/10/18.
+ * File utils
+ *
+ * @author simon
+ * @version 1.0.0
+ * @since 2016-10-19
  */
-
 public class FileUtils {
 
-    public static void deleteFolder(@NonNull final File folder) throws IOException {
-        if (!folder.exists()) {
+    public static void deleteFolder(File folder) throws IOException {
+        if (folder == null || !folder.exists()) {
             return;
         }
         File[] files = folder.listFiles();
@@ -26,10 +34,11 @@ public class FileUtils {
         }
     }
 
-    public static void mkdirs(@NonNull File folder) {
-        // attempt to create first.
-        // if failure only throw if folder does not exist.
-        // This makes this method able to create the same folder(s) from different thread
+    public static void mkdirs(File folder) {
+        if (folder == null) {
+            return;
+        }
+
         if (!folder.mkdirs() && !folder.exists()) {
             throw new RuntimeException("Cannot create directory " + folder);
         }

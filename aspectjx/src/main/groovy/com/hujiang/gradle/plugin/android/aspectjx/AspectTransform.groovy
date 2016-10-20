@@ -1,5 +1,6 @@
 package com.hujiang.gradle.plugin.android.aspectjx
 
+import com.android.SdkConstants
 import com.android.build.api.transform.Context
 import com.android.build.api.transform.DirectoryInput
 import com.android.build.api.transform.Format
@@ -9,13 +10,10 @@ import com.android.build.api.transform.Transform
 import com.android.build.api.transform.TransformException
 import com.android.build.api.transform.TransformInput
 import com.android.build.api.transform.TransformOutputProvider
-
 import com.google.common.collect.ImmutableSet
 import org.aspectj.util.FileUtil
 import org.gradle.api.Project
 import org.gradle.api.tasks.compile.JavaCompile
-import com.android.SdkConstants
-
 
 
 /**
@@ -56,12 +54,12 @@ class AspectTransform extends Transform {
 
     @Override
     Set<QualifiedContent.ContentType> getInputTypes() {
-        return ImmutableSet.<QualifiedContent.ContentType> of(QualifiedContent.DefaultContentType.CLASSES)
+        return ImmutableSet.<QualifiedContent.ContentType>of(QualifiedContent.DefaultContentType.CLASSES)
     }
 
     @Override
     Set<QualifiedContent.Scope> getScopes() {
-        return ImmutableSet.<QualifiedContent.Scope> of(QualifiedContent.Scope.PROJECT
+        return ImmutableSet.<QualifiedContent.Scope>of(QualifiedContent.Scope.PROJECT
                 , QualifiedContent.Scope.PROJECT_LOCAL_DEPS
                 , QualifiedContent.Scope.EXTERNAL_LIBRARIES
                 , QualifiedContent.Scope.SUB_PROJECTS
@@ -119,7 +117,7 @@ class AspectTransform extends Transform {
 
                 String jarPath = jarInput.file.absolutePath
                 if (isIncludeFilterMatched(jarPath, includeJarFilter)
-                        && !isExcludeFilterMatched(jarPath, excludeJarFilter)) {
+                    && !isExcludeFilterMatched(jarPath, excludeJarFilter)) {
                     println "includeJar:::${jarPath}"
                     aspectWork.inPath << jarInput.file
                 } else {
@@ -135,26 +133,28 @@ class AspectTransform extends Transform {
         //add class file to aspect result jar
         println "aspect jar merging.........."
         if (resultDir.listFiles().length > 0) {
-            File jarFile = outputProvider.getContentLocation("aspected", getOutputTypes(), getScopes(),
-                    Format.JAR);
-
-            FileUtils.mkdirs(jarFile.getParentFile());
-            FileUtils.deleteIfExists(jarFile);
+            File jarFile = outputProvider.getContentLocation("aspected", getOutputTypes(), getScopes(), Format.JAR);
+            FileUtils.mkdirs(jarFile.getParentFile())
+            FileUtils.deleteIfExists(jarFile)
 
             JarMerger jarMerger = new JarMerger(jarFile);
             try {
                 jarMerger.setFilter(new JarMerger.IZipEntryFilter() {
                     @Override
-                    boolean checkEntry(String archivePath) {
+                    public boolean checkEntry(String archivePath)
+                            throws JarMerger.IZipEntryFilter.ZipAbortException {
                         return archivePath.endsWith(SdkConstants.DOT_CLASS);
                     }
-                })
+                });
+
+
                 jarMerger.addFolder(resultDir)
             } catch (Exception e) {
                 throw new TransformException(e)
             } finally {
                 jarMerger.close()
             }
+
         }
 
         FileUtils.deleteFolder(resultDir)
@@ -166,12 +166,12 @@ class AspectTransform extends Transform {
         return isFilterMatched(str, filters, FilterPolicy.EXCLUDE)
     }
 
-    boolean isIncludeFilterMatched(String str, List<String> filters) {
+    boolean  isIncludeFilterMatched(String str, List<String> filters) {
         return isFilterMatched(str, filters, FilterPolicy.INCLUDE)
     }
 
     boolean isFilterMatched(String str, List<String> filters, FilterPolicy filterPolicy) {
-        if (str == null) {
+        if(str == null) {
             return false
         }
 
