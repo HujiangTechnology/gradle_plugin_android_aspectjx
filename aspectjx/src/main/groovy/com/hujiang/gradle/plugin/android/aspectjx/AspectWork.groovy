@@ -23,6 +23,7 @@ class AspectWork {
     public String sourceCompatibility
     public String targetCompatibility
     public String destinationDir
+    public List<String> userArgs
 
     AspectWork(Project proj) {
         project = proj
@@ -58,6 +59,11 @@ class AspectWork {
                 "-classpath", classPath.join(File.pathSeparator),
                 "-bootclasspath", bootClassPath
         ]
+
+        if(userArgs != null && userArgs.size()>0){
+            args.addAll(userArgs)
+        }
+
         if (!getInPath().isEmpty()) {
             args << '-inpath'
             args << getInPath().join(File.pathSeparator)
@@ -155,5 +161,9 @@ class AspectWork {
 
     public void setDestinationDir(String destinationDir) {
         this.destinationDir = destinationDir;
+    }
+
+    public  void setUserArgs(List<String> userArgs) {
+        this.userArgs = userArgs
     }
 }
