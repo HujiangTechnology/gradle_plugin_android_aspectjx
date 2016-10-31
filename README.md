@@ -121,16 +121,15 @@ public class A {
 ```
 
 
+### [Tell me what trouble you are in](https://github.com/HujiangTechnology/gradle_plugin_android_aspectjx/issues)
 
 
-## [Feedback](https://github.com/HujiangTechnology/gradle_plugin_android_aspectjx/issues)
+### [Click me to know more changes in history](CHANGELOG.md)
+
+### [Click me to know what will happen in the future](LOADMAP.md)
 
 
-## [CHANGELOG](CHANGELOG.md)
-
-
-## Reference
-
+### Reference
 
 * [How to use Annotation Style AspectJ Demo](https://github.com/HujiangTechnology/AspectJ-Demo)
 * [Android M permission lib with aspectjx](https://github.com/firefly1126/android_permission_aspectjx)
@@ -148,10 +147,6 @@ public class A {
 
 
 email:xiaoming1109@gmail.com
-
-QQ:541136835
-
-wechat:13386016339
 
 
 ## License
