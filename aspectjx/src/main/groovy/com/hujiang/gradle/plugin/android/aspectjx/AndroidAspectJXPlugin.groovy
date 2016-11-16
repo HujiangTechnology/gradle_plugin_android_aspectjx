@@ -22,7 +22,7 @@ class AndroidAspectJXPlugin implements Plugin<Project> {
         }
 
         project.dependencies {
-            compile 'org.aspectj:aspectjrt:1.8.+'
+            compile 'org.aspectj:aspectjrt:1.8.9'
         }
 
         project.extensions.create("aspectjx", AspectjExtension)

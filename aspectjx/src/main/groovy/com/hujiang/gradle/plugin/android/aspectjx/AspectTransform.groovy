@@ -100,7 +100,7 @@ class AspectTransform extends Transform {
         List<String> includeJarFilter = project.aspectjx.includeJarFilter
         List<String> excludeJarFilter = project.aspectjx.excludeJarFilter
         
-        aspectWork.setUserArgs(project.aspectjx.args);
+        aspectWork.setAjcArgs(project.aspectjx.ajcArgs);
 
         for (TransformInput transformInput : inputs) {
             for (DirectoryInput directoryInput : transformInput.directoryInputs) {

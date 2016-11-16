@@ -10,7 +10,7 @@ class AspectjExtension {
 
     List<String> includeJarFilter = new ArrayList<String>()
     List<String> excludeJarFilter = new ArrayList<String>()
-    List<String> args=new  ArrayList<>();
+    List<String> ajcArgs=new ArrayList<>();
 
     public AspectjExtension includeJarFilter(String...filters) {
         if (filters != null) {
@@ -27,9 +27,9 @@ class AspectjExtension {
 
         return this
     }
-    public AspectjExtension args(String...userArgs) {
+    public AspectjExtension ajcArgs(String...ajcArgs) {
         if (userArgs != null) {
-            args.addAll(userArgs)
+            this.ajcArgs.addAll(ajcArgs)
         }
         return this
     }
