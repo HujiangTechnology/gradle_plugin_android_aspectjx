@@ -69,12 +69,19 @@ class AspectWork {
             args << getAspectPath().join(File.pathSeparator)
         }
 
+
         if(ajcArgs != null && !ajcArgs.isEmpty()) {
             if (!ajcArgs.contains('-Xlint')) {
                 args.add('-Xlint:ignore')
             }
+            if (!ajcArgs.contains('-warn')) {
+                args.add('-warn:none')
+            }
 
             args.addAll(ajcArgs)
+        } else {
+            args.add('-Xlint:ignore')
+            args.add('-warn:none')
         }
 
         MessageHandler handler = new MessageHandler(true);

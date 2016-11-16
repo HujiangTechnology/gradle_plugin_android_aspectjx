@@ -1,3 +1,8 @@
+### v1.0.9(2016-11-16)
+* add configuration aspectjx:ajcArgs
+* ignore xlint by default, do not care about error as 'can not determine superclass of missing type...' 
+and do not config aspectjx.excludeJarFilter to filter the jar that may cause compile warning and error.
+
 ### v1.0.8(2016-10-19)
 * fix compatible bug on android plugin 2.2
 
