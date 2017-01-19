@@ -2,7 +2,7 @@
  * Jack & jill支持
  * 
 
-### v1.0.9
+### v1.0.10
  * 增加release/debug配置
  * 增加对module的支持
  * 增加直接对class过滤支持
