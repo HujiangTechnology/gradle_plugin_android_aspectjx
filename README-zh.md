@@ -130,6 +130,8 @@ public class A {
 
 ### [点击我了解更多未来版本中将会发生的事情](LOADMAP.md)
 
+### [看 AspectJ 在 Android 中的强势插入](https://gold.xitu.io/post/587989f48d6d810058bbae01)
+
 
 ### 参考
 
