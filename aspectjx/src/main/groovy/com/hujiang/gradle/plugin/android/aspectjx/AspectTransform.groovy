@@ -24,6 +24,8 @@ import org.gradle.api.tasks.compile.JavaCompile
  */
 class AspectTransform extends Transform {
 
+    static final ASPECTJRT = "aspectjrt"
+
     Project project
     String encoding
     String bootClassPath
@@ -129,8 +131,15 @@ class AspectTransform extends Transform {
             }
         }
 
-        //aspect work
-        aspectWork.doWork()
+        def hasAjRt = aspectWork.classPath.find { it.name.contains(ASPECTJRT) }
+
+        if (hasAjRt) {
+            //aspect work
+            aspectWork.doWork()
+        } else {
+            println "there is no aspectjrt dependencies in classpath"
+        }
+
 
         //add class file to aspect result jar
         println "aspect jar merging.........."
