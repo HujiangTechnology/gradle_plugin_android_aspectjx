@@ -1,3 +1,6 @@
+### v1.0.10(2017-03-13)
+* fix: error on AndroidTest: Getting classpath error: unable to find org.aspectj.lang.JoinPoint when running instrumentation tests #19
+
 ### v1.0.9(2016-11-16)
 * add configuration aspectjx:ajcArgs
 * ignore xlint by default, do not care about error as 'can not determine superclass of missing type...' 
