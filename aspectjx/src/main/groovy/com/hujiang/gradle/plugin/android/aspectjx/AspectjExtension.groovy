@@ -28,7 +28,7 @@ class AspectjExtension {
         return this
     }
     public AspectjExtension ajcArgs(String...ajcArgs) {
-        if (userArgs != null) {
+        if (ajcArgs != null) {
             this.ajcArgs.addAll(ajcArgs)
         }
         return this
