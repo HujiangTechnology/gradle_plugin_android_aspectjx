@@ -1,3 +1,6 @@
+### v1.0.11(2017-03-29)
+* fix: mistake about ajcArgs 
+
 ### v1.0.10(2017-03-13)
 * fix: error on AndroidTest: Getting classpath error: unable to find org.aspectj.lang.JoinPoint when running instrumentation tests #19
 
