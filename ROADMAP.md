@@ -1,6 +1,6 @@
 ### v1.1.0
  * Jack & jill支持
- * 
+ * 细化到class文件级别去过滤文件
 
 ### v1.0.10
  * 增加release/debug配置
