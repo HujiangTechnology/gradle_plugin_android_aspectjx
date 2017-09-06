@@ -61,11 +61,23 @@ class AspectTransform extends Transform {
 
     @Override
     Set<QualifiedContent.Scope> getScopes() {
-        return ImmutableSet.<QualifiedContent.Scope>of(QualifiedContent.Scope.PROJECT
-                , QualifiedContent.Scope.PROJECT_LOCAL_DEPS
-                , QualifiedContent.Scope.EXTERNAL_LIBRARIES
-                , QualifiedContent.Scope.SUB_PROJECTS
-                , QualifiedContent.Scope.SUB_PROJECTS_LOCAL_DEPS)
+        def name = QualifiedContent.Scope.PROJECT_LOCAL_DEPS.name()
+        def deprecated = QualifiedContent.Scope.PROJECT_LOCAL_DEPS.getClass()
+                .getField(name).getAnnotation(Deprecated.class)
+
+        if (deprecated == null) {
+            println "cannot find QualifiedContent.Scope.PROJECT_LOCAL_DEPS Deprecated.class "
+            return ImmutableSet.<QualifiedContent.Scope> of(QualifiedContent.Scope.PROJECT
+                    , QualifiedContent.Scope.PROJECT_LOCAL_DEPS
+                    , QualifiedContent.Scope.EXTERNAL_LIBRARIES
+                    , QualifiedContent.Scope.SUB_PROJECTS
+                    , QualifiedContent.Scope.SUB_PROJECTS_LOCAL_DEPS)
+        } else {
+            println "find QualifiedContent.Scope.PROJECT_LOCAL_DEPS Deprecated.class "
+            return ImmutableSet.<QualifiedContent.Scope> of(QualifiedContent.Scope.PROJECT
+                    , QualifiedContent.Scope.EXTERNAL_LIBRARIES
+                    , QualifiedContent.Scope.SUB_PROJECTS)
+        }
     }
 
     @Override
