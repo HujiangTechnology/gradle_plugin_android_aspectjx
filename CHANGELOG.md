@@ -1,3 +1,6 @@
+### v1.1.0(2017-10-24)
+* fix: compat gradle plugin 3.0.0
+
 ### v1.0.11(2017-03-29)
 * fix: mistake about ajcArgs 
 
