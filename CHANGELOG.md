@@ -1,5 +1,5 @@
-### v1.1.0(2017-10-24)
-* fix: compat gradle plugin 3.0.0
+### v1.1.0(2017-11-02)
+* fix: exception occurs on android plugin 3.0.0: "Unexpected scopes found in folder xx, Required: PROJECT, SUB_PROJECTS, EXTERNAL_LIBRARIES. Found: EXTERNAL_LIBRARIES, PROJECT, PROJECT_LOCAL_DEPS, SUB_PROJECTS, SUB_PROJECTS_LOCAL_DEPS
 
 ### v1.0.11(2017-03-29)
 * fix: mistake about ajcArgs 
