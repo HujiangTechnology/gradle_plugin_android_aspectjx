@@ -1,3 +1,11 @@
+TODO：
+
+* build cache support
+* parallel build support
+* class file filter support
+* regular expression support for filter
+* 
+
 ### v1.1.0
  * Jack & jill支持
  * 细化到class文件级别去过滤文件
