@@ -25,6 +25,7 @@ import com.android.build.api.transform.Transform
 import com.android.build.api.transform.TransformException
 import com.android.build.api.transform.TransformInput
 import com.android.build.api.transform.TransformOutputProvider
+import com.android.build.gradle.internal.pipeline.TransformTask
 import com.google.common.collect.ImmutableSet
 import org.aspectj.util.FileUtil
 import org.gradle.api.Project
@@ -38,9 +39,6 @@ import org.gradle.api.tasks.compile.JavaCompile
  * @since 2016-03-29
  */
 class AspectTransform extends Transform {
-
-    static final ASPECTJRT = "aspectjrt"
-
     Project project
     String encoding
     String bootClassPath
@@ -107,25 +105,42 @@ class AspectTransform extends Transform {
                    , TransformOutputProvider outputProvider
                    , boolean isIncremental) throws IOException, TransformException, InterruptedException {
 
-        def hasAjRt = false
-        for (TransformInput transformInput : inputs) {
-            for (JarInput jarInput : transformInput.jarInputs) {
-                if (jarInput.file.absolutePath.contains(ASPECTJRT)) {
-                    hasAjRt = true
-                    break
-                }
+        TransformTask transformTask = (TransformTask)context
+
+        println "task name:" + transformTask.variantName
+        println("isIncremental:" + isIncremental)
+        for (TransformInput input : inputs) {
+            println "inputs-jar>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+            for (JarInput jInput : input.jarInputs) {
+                println(jInput.file.absolutePath)
             }
-            if (hasAjRt) break
+
+            println "inputs-dir>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+            for (DirectoryInput dInput : input.directoryInputs) {
+                println(dInput.file.absolutePath)
+            }
         }
+
+        for (TransformInput input : referencedInputs) {
+            println "referenced Input jar>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+            for (JarInput jInput : input.jarInputs) {
+                println(jInput.file.absolutePath)
+            }
+
+            println "referenced Input dir>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+            for (DirectoryInput dInput : input.directoryInputs) {
+                println(dInput.file.absolutePath)
+            }
+        }
+
+        println "inputs end<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
 
         //clean
         if (!isIncremental){
             outputProvider.deleteAll()
         }
 
-        if (hasAjRt){
-            doAspectTransform(outputProvider, inputs)
-        } else {
+        if (transformTask.variantName.contains("AndroidTest")){
             println "there is no aspectjrt dependencies in classpath, do nothing "
             inputs.each {TransformInput input ->
                 input.directoryInputs.each {DirectoryInput directoryInput->
@@ -145,6 +160,8 @@ class AspectTransform extends Transform {
                     println "jarInput = ${jarInput.name}"
                 }
             }
+        } else {
+            doAspectTransform(outputProvider, inputs)
         }
     }
 

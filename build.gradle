@@ -17,7 +17,9 @@ allprojects {
         repositories {
             mavenLocal()
             mavenCentral()
-            jcenter()
+            jcenter {
+               url 'http://jcenter.bintray.com'
+            }
         }
     }
     
@@ -25,7 +27,9 @@ allprojects {
         repositories {
             mavenLocal()
             mavenCentral()
-            jcenter()
+            jcenter {
+                url 'http://jcenter.bintray.com'
+            }
         }
     }
 
