@@ -22,7 +22,7 @@ import org.gradle.api.execution.TaskExecutionListener
 import org.gradle.api.initialization.Settings
 import org.gradle.api.invocation.Gradle
 import org.gradle.api.tasks.TaskState
-import org.gradle.util.Clock
+import com.hujiang.gradle.plugin.android.aspectjx.Clock
 
 /**
  * trace task execute time
@@ -66,7 +66,7 @@ class TimeTrace implements TaskExecutionListener, BuildListener {
 
     @Override
     void beforeExecute(Task task) {
-        clock = new Clock()
+        clock = new Clock(System.currentTimeMillis())
     }
 
     @Override
