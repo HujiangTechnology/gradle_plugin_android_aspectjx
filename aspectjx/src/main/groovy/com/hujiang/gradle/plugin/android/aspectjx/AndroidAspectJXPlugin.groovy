@@ -48,7 +48,8 @@ class AndroidAspectJXPlugin implements Plugin<Project> {
 
             //register AspectTransform
             AppExtension android = project.extensions.getByType(AppExtension)
-            android.registerTransform(new AspectTransform(project))
+//            android.registerTransform(new AspectTransform(project))
+            android.registerTransform(new AspectJXTransform(project))
         }
     }
 }

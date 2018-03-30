@@ -29,9 +29,10 @@ dependencies {
 
     compile 'com.android.tools.build:gradle:2.1.2'
     compile "org.aspectj:aspectjtools:${aspectjVersion}"
-    compile "org.aspectj:aspectjrt:${aspectjVersion}"
+//    compile "org.aspectj:aspectjrt:${aspectjVersion}"
     compile 'com.android.tools.build:transform-api:1.5.0'
 //    compile 'commons-io:commons-io:2.4'
+//    compile files('libs/aspectjtools.jar')
 }
 
 apply from: 'bintray.gradle'

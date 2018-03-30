@@ -111,13 +111,13 @@ class AspectWork {
                     throw new GradleException(message.message, message.thrown)
                 case IMessage.WARNING:
                     log.warn message.message, message.thrown
-                    break;
+                    break
                 case IMessage.INFO:
                     log.info message.message, message.thrown
-                    break;
+                    break
                 case IMessage.DEBUG:
                     log.debug message.message, message.thrown
-                    break;
+                    break
             }
         }
 

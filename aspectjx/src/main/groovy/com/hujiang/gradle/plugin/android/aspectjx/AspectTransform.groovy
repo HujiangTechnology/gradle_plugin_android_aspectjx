@@ -21,12 +21,14 @@ import com.android.build.api.transform.DirectoryInput
 import com.android.build.api.transform.Format
 import com.android.build.api.transform.JarInput
 import com.android.build.api.transform.QualifiedContent
+import com.android.build.api.transform.Status
 import com.android.build.api.transform.Transform
 import com.android.build.api.transform.TransformException
 import com.android.build.api.transform.TransformInput
 import com.android.build.api.transform.TransformOutputProvider
 import com.android.build.gradle.internal.pipeline.TransformTask
 import com.google.common.collect.ImmutableSet
+import com.hujiang.gradle.plugin.android.aspectjx.internal.AspectJXUtils
 import org.aspectj.util.FileUtil
 import org.gradle.api.Project
 import org.gradle.api.tasks.compile.JavaCompile
@@ -58,13 +60,17 @@ class AspectTransform extends Transform {
                 bootClassPath = configuration.bootClasspath.join(File.pathSeparator)
                 sourceCompatibility = javaCompile.sourceCompatibility
                 targetCompatibility = javaCompile.targetCompatibility
+                javaCompile.getClasspath().getFiles().forEach( {
+                    println "compile:>>>>:${it.absolutePath}"
+                })
+                println ">>>>>>>>>>>${bootClassPath}<<<<<<<<<<<<<<<"
             }
         }
     }
 
     @Override
     String getName() {
-        return "AspectTransform"
+        return "aspectjx"
     }
 
     @Override
@@ -79,14 +85,12 @@ class AspectTransform extends Transform {
                 .getField(name).getAnnotation(Deprecated.class)
 
         if (deprecated == null) {
-            println "cannot find QualifiedContent.Scope.PROJECT_LOCAL_DEPS Deprecated.class "
             return ImmutableSet.<QualifiedContent.Scope> of(QualifiedContent.Scope.PROJECT
                     , QualifiedContent.Scope.PROJECT_LOCAL_DEPS
                     , QualifiedContent.Scope.EXTERNAL_LIBRARIES
                     , QualifiedContent.Scope.SUB_PROJECTS
                     , QualifiedContent.Scope.SUB_PROJECTS_LOCAL_DEPS)
         } else {
-            println "find QualifiedContent.Scope.PROJECT_LOCAL_DEPS Deprecated.class "
             return ImmutableSet.<QualifiedContent.Scope> of(QualifiedContent.Scope.PROJECT
                     , QualifiedContent.Scope.EXTERNAL_LIBRARIES
                     , QualifiedContent.Scope.SUB_PROJECTS)
@@ -95,7 +99,7 @@ class AspectTransform extends Transform {
 
     @Override
     boolean isIncremental() {
-        return false
+        return true
     }
 
     @Override
@@ -112,26 +116,30 @@ class AspectTransform extends Transform {
         for (TransformInput input : inputs) {
             println "inputs-jar>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
             for (JarInput jInput : input.jarInputs) {
-                println(jInput.file.absolutePath)
+                println( "${jInput.status}:${jInput.file.absolutePath}")
             }
 
             println "inputs-dir>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
             for (DirectoryInput dInput : input.directoryInputs) {
                 println(dInput.file.absolutePath)
+                Map<File, Status> statuss = dInput.getChangedFiles()
+                for (File file : dInput.getChangedFiles().keySet()) {
+                    print "${statuss.get(file)}:${file.absolutePath}"
+                }
             }
         }
 
-        for (TransformInput input : referencedInputs) {
-            println "referenced Input jar>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-            for (JarInput jInput : input.jarInputs) {
-                println(jInput.file.absolutePath)
-            }
-
-            println "referenced Input dir>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-            for (DirectoryInput dInput : input.directoryInputs) {
-                println(dInput.file.absolutePath)
-            }
-        }
+//        for (TransformInput input : referencedInputs) {
+//            println "referenced Input jar>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+//            for (JarInput jInput : input.jarInputs) {
+//                println(jInput.file.absolutePath)
+//            }
+//
+//            println "referenced Input dir>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+//            for (DirectoryInput dInput : input.directoryInputs) {
+//                println(dInput.file.absolutePath)
+//            }
+//        }
 
         println "inputs end<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
 
@@ -161,7 +169,10 @@ class AspectTransform extends Transform {
                 }
             }
         } else {
+            System.setProperty("aspectj.multithreaded", "true")
             doAspectTransform(outputProvider, inputs)
+
+            println "<<<<<<<<<<<${System.getProperty("aspectj.multithreaded")}>>>>>>>>>>>>"
         }
     }
 
@@ -174,12 +185,12 @@ class AspectTransform extends Transform {
         aspectWork.targetCompatibility = targetCompatibility
 
         //create aspect destination dir
-        File resultDir = outputProvider.getContentLocation("aspect", getOutputTypes(), getScopes(), Format.DIRECTORY);
+        File resultDir = outputProvider.getContentLocation("aspect", getOutputTypes(), getScopes(), Format.DIRECTORY)
         if (resultDir.exists()) {
             println "delete resultDir ${resultDir.absolutePath}"
             FileUtils.deleteFolder(resultDir)
         }
-        FileUtils.mkdirs(resultDir);
+        FileUtils.mkdirs(resultDir)
 
         aspectWork.destinationDir = resultDir.absolutePath
 
@@ -196,6 +207,8 @@ class AspectTransform extends Transform {
                 aspectWork.aspectPath << directoryInput.file
                 aspectWork.inPath << directoryInput.file
                 aspectWork.classPath << directoryInput.file
+
+                checkFile(directoryInput.file)
             }
 
             for (JarInput jarInput : transformInput.jarInputs) {
@@ -314,5 +327,18 @@ class AspectTransform extends Transform {
     enum FilterPolicy {
         INCLUDE
         , EXCLUDE
+    }
+
+    void checkFile(File file) {
+        if (file.isDirectory()) {
+            File[] files = file.listFiles()
+            if (files != null) {
+                for (File f : files) {
+                    checkFile(f)
+                }
+            }
+        } else {
+            AspectJXUtils.checkIsAspecJClass(file)
+        }
     }
 }
