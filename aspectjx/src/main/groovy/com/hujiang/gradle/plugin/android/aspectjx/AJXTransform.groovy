@@ -339,7 +339,7 @@ class AJXTransform extends Transform {
                     }
 
                     AJXTask task = new AJXTask()
-                    task.outputDir << outputDir.absolutePath
+                    task.outputDir = outputDir.absolutePath
                     task.inPath << dirInput.file
 
                     mAJXTaskManager.addTask(task)
