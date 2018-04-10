@@ -15,37 +15,44 @@
  */
 package com.hujiang.gradle.plugin.android.aspectjx
 
+
 /**
  * class description here
  * @author simon
  * @version 1.0.0
  * @since 2016-05-05
  */
-class AspectjExtension {
+class AJXExtension {
 
-    List<String> includeJarFilter = new ArrayList<String>()
-    List<String> excludeJarFilter = new ArrayList<String>()
-    List<String> ajcArgs=new ArrayList<>();
+    List<String> includes = new ArrayList<>()
+    List<String> excludes = new ArrayList<>()
 
-    public AspectjExtension includeJarFilter(String...filters) {
+    List<String> ajcArgs=new ArrayList<>()
+
+    boolean enabled = true
+
+
+    AJXExtension include(String...filters) {
         if (filters != null) {
-            includeJarFilter.addAll(filters)
+            this.includes.addAll(filters)
         }
 
         return this
     }
 
-    public AspectjExtension excludeJarFilter(String...filters) {
+    AJXExtension exclude(String...filters) {
         if (filters != null) {
-            excludeJarFilter.addAll(filters)
+            this.excludes.addAll(filters)
         }
 
         return this
     }
-    public AspectjExtension ajcArgs(String...ajcArgs) {
+
+    AJXExtension ajcArgs(String...ajcArgs) {
         if (ajcArgs != null) {
             this.ajcArgs.addAll(ajcArgs)
         }
+
         return this
     }
 }

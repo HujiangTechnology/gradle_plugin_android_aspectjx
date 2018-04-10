@@ -14,7 +14,7 @@ import org.gradle.util.TextUtil
  * @version 1.0.0
  * @since 2018-03-14
  */
-class AspectJXTask implements ITask {
+class AJXTask implements ITask {
 
     Project project
     String encoding
@@ -28,7 +28,7 @@ class AspectJXTask implements ITask {
     String outputDir
     String outputJar
 
-    AspectJXTask(Project proj) {
+    AJXTask(Project proj) {
         project = proj
     }
 
@@ -77,6 +77,10 @@ class AspectJXTask implements ITask {
             args.add('-warn:none')
         }
         println "aspect core working start ${this}***************"
+        inPath.each {File file ->
+            println "${file.absolutePath}"
+
+        }
 
         MessageHandler handler = new MessageHandler(true)
         Main m = new Main()

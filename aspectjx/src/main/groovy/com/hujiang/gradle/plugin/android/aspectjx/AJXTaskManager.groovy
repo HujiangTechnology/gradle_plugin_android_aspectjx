@@ -1,12 +1,11 @@
 package com.hujiang.gradle.plugin.android.aspectjx
 
+import com.hujiang.gradle.plugin.android.aspectjx.internal.BatchTaskScheduler
 import org.aspectj.weaver.Dump
 import org.gradle.api.Project
-import org.gradle.tooling.internal.consumer.ExecutorServiceFactory
 
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import java.util.concurrent.ThreadPoolExecutor
 
 /**
  * class description here
@@ -14,10 +13,7 @@ import java.util.concurrent.ThreadPoolExecutor
  * @version 1.0.0
  * @since 2018-03-14
  */
-class AspectJXTaskManager {
-
-    ExecutorService mExecutorService
-    List<AspectJXTask> mTasks = new ArrayList<>()
+class AJXTaskManager {
 
     Project project
     String encoding
@@ -28,25 +24,27 @@ class AspectJXTaskManager {
     String sourceCompatibility
     String targetCompatibility
 
-    AspectJXTaskManager(Project proj) {
-        project = proj
-        mExecutorService = Executors.newScheduledThreadPool(Runtime.runtime.availableProcessors() + 1)
+    BatchTaskScheduler batchTaskScheduler = new BatchTaskScheduler()
 
+    AJXTaskManager(Project proj) {
+        project = proj
+
+        //set dump dir
         File logDir = new File(project.buildDir.absolutePath + File.separator + "outputs" + File.separator + "logs")
         if (!logDir.exists()) {
             logDir.mkdirs()
         }
 
-        Dump.setDumpDirectory(logDir)
+        Dump.setDumpDirectory(logDir.absolutePath)
     }
 
 
-    void addTask(AspectJXTask task) {
-        mTasks << task
+    void addTask(AJXTask task) {
+        batchTaskScheduler.tasks << task
     }
 
-    void batchExecute() {
-        mTasks.each {AspectJXTask task ->
+    void executeTasks() {
+        batchTaskScheduler.tasks.each { AJXTask task ->
             task.encoding = encoding
             task.aspectPath = aspectPath
             task.classPath = classPath
@@ -54,12 +52,8 @@ class AspectJXTaskManager {
             task.sourceCompatibility = sourceCompatibility
             task.bootClassPath = bootClassPath
             task.ajcArgs = ajcArgs
-//            task.call()
         }
 
-
-        mExecutorService.invokeAll(mTasks)
-
-        mTasks.clear()
+        batchTaskScheduler.execute()
     }
 }

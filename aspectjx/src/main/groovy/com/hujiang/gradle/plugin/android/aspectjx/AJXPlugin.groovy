@@ -27,7 +27,7 @@ import org.gradle.api.Project
  * @version 1.0.0
  * @since 2016-04-20
  */
-class AndroidAspectJXPlugin implements Plugin<Project> {
+class AJXPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
@@ -37,10 +37,11 @@ class AndroidAspectJXPlugin implements Plugin<Project> {
         }
 
         project.dependencies {
+
             compile 'org.aspectj:aspectjrt:1.8.9'
         }
 
-        project.extensions.create("aspectjx", AspectjExtension)
+        project.extensions.create("aspectjx", AJXExtension)
 
         if (project.plugins.hasPlugin(AppPlugin)) {
             //build time trace
@@ -48,8 +49,7 @@ class AndroidAspectJXPlugin implements Plugin<Project> {
 
             //register AspectTransform
             AppExtension android = project.extensions.getByType(AppExtension)
-//            android.registerTransform(new AspectTransform(project))
-            android.registerTransform(new AspectJXTransform(project))
+            android.registerTransform(new AJXTransform(project))
         }
     }
 }

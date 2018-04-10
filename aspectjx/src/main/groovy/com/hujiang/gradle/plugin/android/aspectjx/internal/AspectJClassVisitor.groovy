@@ -11,6 +11,7 @@ import org.objectweb.asm.Opcodes
  * @version 1.0.0
  * @since 2018-02-01
  */
+
 class AspectJClassVisitor extends ClassVisitor {
 
     boolean isAspectClass = false
@@ -21,8 +22,6 @@ class AspectJClassVisitor extends ClassVisitor {
 
     @Override
     AnnotationVisitor visitAnnotation(String desc, boolean visible) {
-        println "visitAnnotation::${desc}"
-
         isAspectClass = (desc == 'Lorg/aspectj/lang/annotation/Aspect;')
 
         return super.visitAnnotation(desc, visible)

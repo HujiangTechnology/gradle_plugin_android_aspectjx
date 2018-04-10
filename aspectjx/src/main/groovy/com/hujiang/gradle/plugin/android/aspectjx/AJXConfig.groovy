@@ -29,14 +29,14 @@ import org.gradle.api.Project
  * @version 1.0.0
  * @since 2016-04-20
  */
-class AndroidConfiguration {
+class AJXConfig {
 
     private final Project project
     private final boolean hasAppPlugin
     private final boolean hasLibPlugin
     private final BasePlugin plugin
 
-    AndroidConfiguration(Project project) {
+    AJXConfig(Project project) {
         this.project = project
         this.hasAppPlugin = project.plugins.hasPlugin(AppPlugin)
         this.hasLibPlugin = project.plugins.hasPlugin(LibraryPlugin)
