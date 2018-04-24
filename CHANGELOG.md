@@ -1,3 +1,11 @@
+### v2.0.0(2018-04-24)
+* 支持Instant Run编译
+* 废弃 `includeJarFilter`和`excludeJarFilter`两个配置命令
+* 新增 `include`和 `exclude`配置命令，通过包名(package)路径关键字匹配，可过滤class文件和jar文件
+* `include`和 `exclude`配置命令支持`*`，`**`通配符
+* 修复已知的gradle兼容性Bug
+* 提升编译效率
+
 ### v1.1.1(2017-12-12)
 * fix: no effects while building with java8
 * this version disable `includeJarFilter` and `excludeJarFilter`configuration, and will be fixed in the next version.
