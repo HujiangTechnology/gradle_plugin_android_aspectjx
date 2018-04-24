@@ -23,7 +23,7 @@ AspectJX
 
 **AspectJX** 2.0.0版本与旧版本之间编译性能对比数据
 > 下面的数据来自于同一个项目不同环境下的编译情况
-> 由于就版本不支持Instant Run增量编译，故没有这块数据
+> 由于旧版本不支持Instant Run增量编译，故没有这块数据
 
 |gradle version|android plugin version|full build(2.0.0/1.1.1 ms)|instant run(2.0.0/1.1.1 ms)|性能提升|
 |---|---|---|---|---|
