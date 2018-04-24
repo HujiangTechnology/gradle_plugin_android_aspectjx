@@ -48,9 +48,6 @@ class DoAspectWorkProcedure extends AbsProcedure {
 
         //process class files
         AJXTask ajxTask = new AJXTask(project)
-        println("~~~~~~~~~~~~${transformInvocation.toString()}")
-        println("~~~~~~~~~~~~${variantCache.includeFileContentTypes.toString()}")
-        println("~~~~~~~~~~~~${variantCache.includeFileScopes.toString()}")
         File outputDir = transformInvocation.getOutputProvider().getContentLocation("include", variantCache.includeFileContentTypes, variantCache.includeFileScopes,
                 Format.DIRECTORY)
         if (!outputDir.exists()) {
