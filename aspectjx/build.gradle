@@ -17,6 +17,11 @@ apply plugin: 'maven'
 targetCompatibility = JavaVersion.VERSION_1_7
 sourceCompatibility = JavaVersion.VERSION_1_7
 
+jar {
+    from {
+        zipTree(new File(project.projectDir.absolutePath + "/libs/aspectjtools.jar"))
+    }
+}
 
 dependencies {
     repositories {
@@ -28,13 +33,12 @@ dependencies {
     compile localGroovy()
 
     compile 'com.android.tools.build:gradle:2.1.2'
-    compile "org.aspectj:aspectjtools:${aspectjVersion}"
-//    compile "org.aspectj:aspectjrt:${aspectjVersion}"
+//    compile "org.aspectj:aspectjtools:1.8.13"
     compile 'com.android.tools.build:transform-api:1.5.0'
     compile 'com.google.code.gson:gson:2.8.2'
 
 //    compile 'commons-io:commons-io:2.4'
-//    compile files('libs/aspectjtools.jar')
+    compile files('libs/aspectjtools.jar')
 }
 
 apply from: 'bintray.gradle'

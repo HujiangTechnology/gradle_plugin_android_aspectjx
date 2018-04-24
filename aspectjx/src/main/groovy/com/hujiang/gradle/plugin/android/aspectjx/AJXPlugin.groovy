@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 firefly1126, Inc.
+ * Copyright 2018 firefly1126, Inc.
 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,9 @@
 // This plugin is based on https://github.com/JakeWharton/hugo
 package com.hujiang.gradle.plugin.android.aspectjx
 
-import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.AppExtension
+import com.android.build.gradle.AppPlugin
+import com.hujiang.gradle.plugin.android.aspectjx.internal.TimeTrace
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
