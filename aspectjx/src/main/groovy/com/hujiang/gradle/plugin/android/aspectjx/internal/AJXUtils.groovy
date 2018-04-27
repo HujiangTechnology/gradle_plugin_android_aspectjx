@@ -40,16 +40,7 @@ class AJXUtils {
     static boolean isAspectClass(File classFile) {
 
         if (isClassFile(classFile)) {
-            try {
-                ClassReader classReader = new ClassReader(FileUtils.readFileToByteArray(classFile))
-                ClassWriter classWriter = new ClassWriter(classReader, ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES)
-                AspectJClassVisitor aspectJClassVisitor = new AspectJClassVisitor(classWriter)
-                classReader.accept(aspectJClassVisitor, ClassReader.EXPAND_FRAMES)
-
-                return aspectJClassVisitor.isAspectClass
-            } catch (Exception e) {
-                println "${e.toString()}"
-            }
+            return isAspectClass(FileUtils.readFileToByteArray(classFile))
         }
 
         return false
@@ -68,7 +59,7 @@ class AJXUtils {
 
             return aspectJClassVisitor.isAspectClass
         } catch (Exception e) {
-            println "${e.toString()}"
+
         }
 
         return false
