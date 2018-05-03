@@ -21,6 +21,7 @@ import com.android.build.api.transform.TransformInvocation
 import com.hujiang.gradle.plugin.android.aspectjx.internal.AJXTask
 import com.hujiang.gradle.plugin.android.aspectjx.internal.AJXTaskManager
 import com.hujiang.gradle.plugin.android.aspectjx.internal.cache.VariantCache
+import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
 
 /**
@@ -48,16 +49,20 @@ class DoAspectWorkProcedure extends AbsProcedure {
 
         //process class files
         AJXTask ajxTask = new AJXTask(project)
-        File outputDir = transformInvocation.getOutputProvider().getContentLocation("include", variantCache.includeFileContentTypes, variantCache.includeFileScopes,
-                Format.DIRECTORY)
-        if (!outputDir.exists()) {
-            outputDir.mkdirs()
+        File includeJar = transformInvocation.getOutputProvider().getContentLocation("include", variantCache.contentTypes,
+                variantCache.scopes, Format.JAR)
+
+        if (!includeJar.parentFile.exists()) {
+            FileUtils.forceMkdir(includeJar.getParentFile())
         }
-        ajxTask.outputDir = outputDir.absolutePath
+
+        FileUtils.deleteQuietly(includeJar)
+
+        ajxTask.outputJar = includeJar.absolutePath
         ajxTask.inPath << variantCache.includeFileDir
-//
         ajxTaskManager.addTask(ajxTask)
 
+        //process jar files
         transformInvocation.inputs.each { TransformInput input ->
             input.jarInputs.each { JarInput jarInput ->
                 ajxTaskManager.classPath << jarInput.file

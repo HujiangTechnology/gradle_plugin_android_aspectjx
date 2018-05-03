@@ -14,8 +14,10 @@
  */
 package com.hujiang.gradle.plugin.android.aspectjx.internal.procedure
 
+import com.android.SdkConstants
 import com.android.build.api.transform.*
 import com.hujiang.gradle.plugin.android.aspectjx.internal.AJXUtils
+import com.hujiang.gradle.plugin.android.aspectjx.internal.JarMerger
 import com.hujiang.gradle.plugin.android.aspectjx.internal.cache.VariantCache
 import com.hujiang.gradle.plugin.android.aspectjx.internal.concurrent.BatchTaskScheduler
 import com.hujiang.gradle.plugin.android.aspectjx.internal.concurrent.ITask
@@ -61,16 +63,14 @@ class CacheInputFilesProcedure extends AbsProcedure {
                                 boolean isInclude = AJXUtils.isIncludeFilterMatched(transPath, ajxExtensionConfig.includes) &&
                                         !AJXUtils.isExcludeFilterMatched(transPath, ajxExtensionConfig.excludes)
                                 variantCache.add(item, new File((isInclude ? variantCache.includeFilePath : variantCache.excludeFilePath) + subPath))
-
-                                if (!isInclude) {
-                                    File excludeOutput = transformInvocation.getOutputProvider().getContentLocation("exclude", variantCache.includeFileContentTypes
-                                            , variantCache.includeFileScopes, Format.DIRECTORY)
-                                    if (!excludeOutput.exists()) {
-                                        excludeOutput.mkdirs()
-                                    }
-                                    FileUtils.copyFile(item, new File(excludeOutput.absolutePath + File.separator + subPath))
-                                }
                             }
+                        }
+
+                        //put exclude files into jar
+                        if (AJXUtils.countOfFiles(variantCache.excludeFileDir) > 0) {
+                            File excludeJar = transformInvocation.getOutputProvider().getContentLocation("exclude", variantCache.contentTypes,
+                                    variantCache.scopes, Format.JAR)
+                            AJXUtils.mergeJar(variantCache.excludeFileDir, excludeJar)
                         }
 
                         return null

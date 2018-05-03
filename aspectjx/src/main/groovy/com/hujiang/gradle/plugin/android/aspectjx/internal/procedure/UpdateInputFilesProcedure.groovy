@@ -44,7 +44,6 @@ class UpdateInputFilesProcedure extends AbsProcedure {
                 taskScheduler.addTask(new ITask() {
                     @Override
                     Object call() throws Exception {
-                        File excludeOutputDir = transformInvocation.outputProvider.getContentLocation("exclude", dirInput.contentTypes, dirInput.scopes, Format.DIRECTORY)
                         dirInput.changedFiles.each { File file, Status status ->
                             println "~~~~~~~~~~~~~~~~changed file::${status.name()}::${file.absolutePath}"
 
@@ -58,46 +57,45 @@ class UpdateInputFilesProcedure extends AbsProcedure {
                             boolean isInclude = AJXUtils.isIncludeFilterMatched(transPath, ajxExtensionConfig.includes) \
                                         && !AJXUtils.isExcludeFilterMatched(transPath, ajxExtensionConfig.excludes)
 
-                            if (!variantCache.incrementalStatus.isIncludeFileChanged) {
+                            if (!variantCache.incrementalStatus.isIncludeFileChanged && isInclude) {
                                 variantCache.incrementalStatus.isIncludeFileChanged = isInclude
+                            }
+
+                            if (!variantCache.incrementalStatus.isExcludeFileChanged && !isInclude) {
+                                variantCache.incrementalStatus.isExcludeFileChanged = !isInclude
                             }
 
                             File target = new File((isInclude ? variantCache.includeFilePath : variantCache.excludeFilePath) + subPath)
                             switch (status) {
                                 case Status.REMOVED:
                                     FileUtils.deleteQuietly(target)
-                                    if (!isInclude) {
-                                        //remove file which was excluded
-                                        File outTarget = new File(excludeOutputDir + File.separator + subPath)
-                                        FileUtils.deleteQuietly(outTarget)
-                                    }
                                     break
                                 case Status.CHANGED:
                                     FileUtils.deleteQuietly(target)
                                     variantCache.add(file, target)
-                                    if (!isInclude) {
-                                        //remove file which was excluded
-                                        File outTarget = new File(excludeOutputDir + File.separator + subPath)
-                                        FileUtils.deleteQuietly(outTarget)
-                                        FileUtils.copyFile(file, outTarget)
-                                    }
                                     break
                                 case Status.ADDED:
                                     variantCache.add(file, target)
-                                    if (!isInclude) {
-                                        File outTarget = new File(excludeOutputDir + File.separator + subPath)
-                                        FileUtils.copyFile(file, outTarget)
-                                    }
                                     break
                                 default:
                                     break
                             }
                         }
-                        //如果include files 发生变化，则删除include files输出目录
+                        //如果include files 发生变化，则删除include输出jar
                         if (variantCache.incrementalStatus.isIncludeFileChanged) {
-                            File includeOutputDir = transformInvocation.outputProvider.getContentLocation("include", dirInput.contentTypes, dirInput.scopes, Format.DIRECTORY)
-                            FileUtils.deleteDirectory(includeOutputDir)
+                            File includeOutputJar = transformInvocation.outputProvider.getContentLocation("include", variantCache.contentTypes,
+                                    variantCache.scopes, Format.JAR)
+                            FileUtils.deleteQuietly(includeOutputJar)
                         }
+
+                        //如果exclude files发生变化，则重新生成exclude jar到输出目录
+                        if (variantCache.incrementalStatus.isExcludeFileChanged) {
+                            File excludeOutputJar = transformInvocation.outputProvider.getContentLocation("exclude", variantCache.contentTypes,
+                                    variantCache.scopes, Format.JAR)
+                            FileUtils.deleteQuietly(excludeOutputJar)
+                            AJXUtils.mergeJar(variantCache.excludeFileDir, excludeOutputJar)
+                        }
+
                         return null
                     }
                 })

@@ -49,14 +49,13 @@ class UpdateAspectOutputProcedure extends AbsProcedure {
         if (variantCache.incrementalStatus.isAspectChanged || variantCache.incrementalStatus.isIncludeFileChanged) {
             //process class files
             AJXTask ajxTask = new AJXTask(project)
-            File outputDir = transformInvocation.getOutputProvider().getContentLocation("include", variantCache.includeFileContentTypes,
-                    variantCache.includeFileScopes, Format.DIRECTORY)
-            FileUtils.deleteDirectory(outputDir)
-            outputDir.mkdirs()
+            File outputJar = transformInvocation.getOutputProvider().getContentLocation("include", variantCache.contentTypes,
+                    variantCache.scopes, Format.JAR)
+            FileUtils.deleteQuietly(outputJar)
 
-            ajxTask.outputDir = outputDir.absolutePath
+            ajxTask.outputJar = outputJar.absolutePath
             ajxTask.inPath << variantCache.includeFileDir
-//
+
             ajxTaskManager.addTask(ajxTask)
         }
 

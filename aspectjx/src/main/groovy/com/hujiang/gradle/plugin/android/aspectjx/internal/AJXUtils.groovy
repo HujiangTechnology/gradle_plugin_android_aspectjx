@@ -14,6 +14,7 @@
  */
 package com.hujiang.gradle.plugin.android.aspectjx.internal
 
+import com.android.SdkConstants
 import com.android.build.api.transform.*
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -144,12 +145,9 @@ class AJXUtils {
         transformInvocation.outputProvider.deleteAll()
 
         transformInvocation.inputs.each { TransformInput input ->
-            input.directoryInputs.each { DirectoryInput directoryInput->
-                def dest = transformInvocation.outputProvider.getContentLocation("exclude"
-                        , directoryInput.contentTypes
-                        , directoryInput.scopes
-                        , Format.DIRECTORY)
-                FileUtils.copyDirectory(directoryInput.file, dest)
+            input.directoryInputs.each { DirectoryInput dirInput->
+                File excludeJar = transformInvocation.getOutputProvider().getContentLocation("exclude", dirInput.contentTypes, dirInput.scopes, Format.JAR)
+                AJXUtils.mergeJar(dirInput.file, excludeJar)
             }
 
             input.jarInputs.each { JarInput jarInput->
@@ -165,24 +163,9 @@ class AJXUtils {
     static void incrementalCopyFiles(TransformInvocation transformInvocation) {
         transformInvocation.inputs.each {TransformInput input ->
             input.directoryInputs.each {DirectoryInput dirInput ->
-                File outputDir = transformInvocation.outputProvider.getContentLocation("exclude", dirInput.contentTypes, dirInput.scopes)
-                dirInput.changedFiles.each { File file, Status status ->
-                    String subPath = file.absolutePath.substring(dirInput.file.absolutePath.length())
-                    File target = new File(outputDir.absolutePath + subPath)
-                    switch (status) {
-                        case Status.REMOVED:
-                            FileUtils.forceDelete(target)
-                            break
-                        case Status.CHANGED:
-                            FileUtils.forceDelete(target)
-                            FileUtils.copyFile(file, target)
-                            break
-                        case Status.ADDED:
-                            FileUtils.copyFile(file, target)
-                            break
-                        default:
-                            break
-                    }
+                if (dirInput.changedFiles.size() > 0) {
+                    File excludeJar = transformInvocation.getOutputProvider().getContentLocation("exclude", dirInput.contentTypes, dirInput.scopes, Format.JAR)
+                    AJXUtils.mergeJar(dirInput.file, excludeJar)
                 }
             }
 
@@ -336,6 +319,38 @@ class AJXUtils {
                 //put in cache
                 variantCache.addIncludeJar(jarInput.file.absolutePath)
             }
+        }
+    }
+
+    static void mergeJar(File sourceDir, File targetJar) {
+        if (sourceDir == null) {
+            throw new IllegalArgumentException("sourceDir should not be null")
+        }
+
+        if (targetJar == null) {
+            throw new IllegalArgumentException("targetJar should not be null")
+        }
+
+        if (!targetJar.parentFile.exists()) {
+            FileUtils.forceMkdir(targetJar.getParentFile())
+        }
+
+        FileUtils.deleteQuietly(targetJar)
+
+        JarMerger jarMerger = new JarMerger(targetJar)
+        try {
+            jarMerger.setFilter(new JarMerger.IZipEntryFilter() {
+                @Override
+                boolean checkEntry(String archivePath) throws JarMerger.IZipEntryFilter.ZipAbortException {
+                    return archivePath.endsWith(SdkConstants.DOT_CLASS)
+                }
+            })
+
+            jarMerger.addFolder(sourceDir)
+        } catch (Exception e) {
+            e.printStackTrace()
+        } finally {
+            jarMerger.close()
         }
     }
 }

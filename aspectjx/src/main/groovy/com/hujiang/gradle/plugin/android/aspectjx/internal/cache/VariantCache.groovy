@@ -16,6 +16,7 @@ package com.hujiang.gradle.plugin.android.aspectjx.internal.cache
 
 import com.android.build.api.transform.QualifiedContent
 import com.android.builder.model.AndroidProject
+import com.google.common.collect.ImmutableSet
 import com.google.gson.reflect.TypeToken
 import com.hujiang.gradle.plugin.android.aspectjx.internal.AJXUtils
 import com.hujiang.gradle.plugin.android.aspectjx.internal.model.JarInfo
@@ -45,6 +46,8 @@ class VariantCache {
     IncrementalStatus incrementalStatus
     Set<QualifiedContent.ContentType> includeFileContentTypes
     Set<QualifiedContent.Scope> includeFileScopes
+    Set<QualifiedContent.ContentType> contentTypes = ImmutableSet.<QualifiedContent.ContentType>of(QualifiedContent.DefaultContentType.CLASSES)
+    Set<QualifiedContent.Scope> scopes = ImmutableSet.<QualifiedContent.Scope>of(QualifiedContent.Scope.EXTERNAL_LIBRARIES)
 
     Map<String, JarInfo> includeJarInfos = new ConcurrentHashMap<>()
 

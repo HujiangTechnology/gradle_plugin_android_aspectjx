@@ -90,6 +90,10 @@ class AJXTask implements ITask {
             args.add('-warn:none')
         }
 
+        inPath.each {File file ->
+            println "~~~~~~~~~~~~~input file: ${file.absolutePath}"
+        }
+
         MessageHandler handler = new MessageHandler(true)
         Main m = new Main()
         m.run(args as String[], handler)

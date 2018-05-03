@@ -11,6 +11,9 @@ AspectJX
  
 ## 最近更新
 
+#### v2.0.1
+* 解决dexguard混淆兼容性问题(ClassNotFoundException)
+
 #### v2.0.0
 * 支持Instant Run编译
 * 废弃 `includeJarFilter`和`excludeJarFilter`两个配置命令
