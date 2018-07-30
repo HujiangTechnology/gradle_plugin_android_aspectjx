@@ -106,8 +106,8 @@ install {
     }
 }
 
-Properties properties = new Properties()
-properties.load(project.file("../local.properties").newDataInputStream())
+//Properties properties = new Properties()
+//properties.load(project.file("../local.properties").newDataInputStream())
 
 bintray {
     user = bintrayUser

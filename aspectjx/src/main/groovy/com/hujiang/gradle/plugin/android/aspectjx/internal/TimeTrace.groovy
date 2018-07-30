@@ -23,6 +23,8 @@ import org.gradle.api.initialization.Settings
 import org.gradle.api.invocation.Gradle
 import org.gradle.api.tasks.TaskState
 
+import java.util.concurrent.ConcurrentHashMap
+
 /**
  * trace task execute time
  * @author simon
@@ -31,8 +33,9 @@ import org.gradle.api.tasks.TaskState
  */
 class TimeTrace implements TaskExecutionListener, BuildListener {
 
-    private Clock clock
+    private clocks = new ConcurrentHashMap()
     private times = []
+    private static final DISPLAY_TIME_THRESHOLD = 50
 
     @Override
     void buildStarted(Gradle gradle) {
@@ -55,23 +58,32 @@ class TimeTrace implements TaskExecutionListener, BuildListener {
 
     @Override
     void buildFinished(BuildResult result) {
-        println "Task spend time:"
-        for (time in times) {
-            if (time[0] > 50) {
-                printf "%7sms   %s\n", time
-            }
-        }
+        println "Tasks spend time > ${DISPLAY_TIME_THRESHOLD}ms:"
+
+        times.sort { lhs, rhs -> -(lhs[0] - rhs[0]) }
+                .grep { it[0] > DISPLAY_TIME_THRESHOLD }
+                .each { time -> printf "%14s   %s\n", formatTime(time[0]), time[1] }
     }
 
     @Override
     void beforeExecute(Task task) {
-        clock = new Clock(System.currentTimeMillis())
+        clocks[task.path] = new Clock(System.currentTimeMillis())
     }
 
     @Override
     void afterExecute(Task task, TaskState state) {
-        def ms = clock.timeInMs
-        times.add([ms, task.path])
-        task.project.logger.warn("${task.path} spend ${ms}ms")
+        clocks.remove(task.path)?.with { clock ->
+            def ms = clock.timeInMs
+            times.add([ms, task.path])
+            task.project.logger.warn("${task.path} spend ${ms}ms")
+        }
+    }
+
+    static def formatTime(ms) {
+        def sec = ms.intdiv(1000)
+        def min = sec.intdiv(60)
+        sec %= 60
+        ms = (ms % 1000).intdiv(10)
+        return String.format("%02d:%02d.%02d", min, sec, ms)
     }
 }
