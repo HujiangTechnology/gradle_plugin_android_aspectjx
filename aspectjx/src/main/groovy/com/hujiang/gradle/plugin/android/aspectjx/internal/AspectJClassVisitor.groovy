@@ -36,7 +36,7 @@ class AspectJClassVisitor extends ClassVisitor {
 
     @Override
     AnnotationVisitor visitAnnotation(String desc, boolean visible) {
-        isAspectClass = (desc == 'Lorg/aspectj/lang/annotation/Aspect;')
+        isAspectClass |= (desc == 'Lorg/aspectj/lang/annotation/Aspect;')
 
         return super.visitAnnotation(desc, visible)
     }
