@@ -106,9 +106,6 @@ install {
     }
 }
 
-//Properties properties = new Properties()
-//properties.load(project.file("../local.properties").newDataInputStream())
-
 bintray {
     user = bintrayUser
     key = bintrayAPIKey
