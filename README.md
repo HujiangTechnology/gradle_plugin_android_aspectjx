@@ -175,13 +175,14 @@ WeChat:firefly_1126
 
 ### 作者激励
 
-#### ● BTC
+### ● BTC
 
 ![](btc_wallet.png)
 
 18yjhBTjipmDgFezzV9n5B7KynLqZN4osL
 
-#### ● ETH (ERC20 coin support)
+
+### ● ETH (ERC20 coin support)
 
 ![](eth_wallet.png)
 
