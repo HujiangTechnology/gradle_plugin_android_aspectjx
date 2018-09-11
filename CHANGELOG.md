@@ -1,5 +1,5 @@
 ### v2.0.2(2018-08-07)
-* [FIX]无法识别kotlin写Aspect文件
+* [FIX]无法识别kotlin写的Aspect文件
 
 ### v2.0.1(2018-05-03)
 * 解决dexguard混淆兼容性问题(ClassNotFoundException)

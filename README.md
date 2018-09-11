@@ -11,8 +11,8 @@ AspectJX
  
 ## 最近更新
 
-#### v2.0.1
-* 解决dexguard混淆兼容性问题(ClassNotFoundException)
+#### v2.0.2
+* 解决无法识别kotlin写的Aspect文件的Bug
 
 #### v2.0.0
 * 支持Instant Run编译
@@ -33,6 +33,7 @@ AspectJX
 |2.14.1|2.2.0|9761/13213|2596/-|+35%|
 |3.3|2.3.0|8133/15306|890/-|+88%|
 |4.1|3.0.1|6681/15306|713/-|129%|
+|4.4|3.1.4||||
 
 ## 如何使用
 
@@ -170,8 +171,21 @@ email:xiaoming1109@gmail.com
 
 QQ:541136835
 
-微信:firefly_1126
+WeChat:firefly_1126
 
+### 作者激励
+
+#### ● BTC
+
+![](btc_wallet.png)
+
+18yjhBTjipmDgFezzV9n5B7KynLqZN4osL
+
+#### ● ETH (ERC20 coin support)
+
+![](eth_wallet.png)
+
+0xe36e1877F4e386C314894923c339c28ED4a88536
 
 ### License
 
