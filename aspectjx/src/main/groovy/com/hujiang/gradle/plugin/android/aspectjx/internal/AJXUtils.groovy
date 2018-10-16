@@ -264,7 +264,7 @@ class AJXUtils {
             while (entries.hasMoreElements()) {
                 JarEntry jarEntry = entries.nextElement()
                 String entryName = jarEntry.getName()
-                String tranEntryName = entryName.replace(File.separator, ".")
+                String tranEntryName = entryName.replace("/", ".").replace("\\", ".")
                 if (isExcludeFilterMatched(tranEntryName, excludes)) {
                     isExclude = true
                     break
@@ -283,7 +283,7 @@ class AJXUtils {
             while (entries.hasMoreElements()) {
                 JarEntry jarEntry = entries.nextElement()
                 String entryName = jarEntry.getName()
-                String tranEntryName = entryName.replace(File.separator, ".")
+                String tranEntryName = entryName.replace("/", ".").replace("\\", ".")
                 if (isIncludeFilterMatched(tranEntryName, includes)) {
                     isInclude = true
                     break
@@ -303,7 +303,7 @@ class AJXUtils {
             while (entries.hasMoreElements()) {
                 JarEntry jarEntry = entries.nextElement()
                 String entryName = jarEntry.getName()
-                String tranEntryName = entryName.replace(File.separator, ".")
+                String tranEntryName = entryName.replace("/", ".").replace("\\", ".")
                 if (isIncludeFilterMatched(tranEntryName, includes)) {
                     isIncludeMatched = true
                 }

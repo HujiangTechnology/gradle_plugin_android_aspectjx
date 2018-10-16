@@ -38,8 +38,15 @@ class AJXPlugin implements Plugin<Project> {
         }
 
         project.dependencies {
+            if (project.gradle.gradleVersion > "4.0") {
+                println "gradlew version > 4.0"
+                implementation 'org.aspectj:aspectjrt:1.8.9'
+            } else {
+                println "gradlew version < 4.0"
+                compile 'org.aspectj:aspectjrt:1.8.9'
+            }
 
-            compile 'org.aspectj:aspectjrt:1.8.9'
+
         }
 
         project.extensions.create("aspectjx", AJXExtension)

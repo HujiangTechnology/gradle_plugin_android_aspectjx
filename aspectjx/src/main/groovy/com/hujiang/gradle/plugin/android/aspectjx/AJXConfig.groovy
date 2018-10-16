@@ -36,15 +36,15 @@ class AJXConfig {
     private final boolean hasLibPlugin
     private final BasePlugin plugin
 
-    AJXConfig(Project project) {
-        this.project = project
-        this.hasAppPlugin = project.plugins.hasPlugin(AppPlugin)
-        this.hasLibPlugin = project.plugins.hasPlugin(LibraryPlugin)
+    AJXConfig(Project p) {
+        project = p
+        hasAppPlugin = project.plugins.hasPlugin(AppPlugin)
+        hasLibPlugin = project.plugins.hasPlugin(LibraryPlugin)
 
         if (!hasAppPlugin && !hasLibPlugin) {
             throw new GradleException("android-aspjectjx: The 'com.android.application' or 'com.android.library' plugin is required.")
         }
-        this.plugin = project.plugins.getPlugin(hasAppPlugin ? AppPlugin : LibraryPlugin)
+        plugin = project.plugins.getPlugin(hasAppPlugin ? AppPlugin : LibraryPlugin)
     }
 
     /**

@@ -1,3 +1,7 @@
+### v2.0.4(2018-10-16)
+* [FIX] issue[#120](https://github.com/HujiangTechnology/gradle_plugin_android_aspectjx/issues/120)
+* [FIX] issue[#118](https://github.com/HujiangTechnology/gradle_plugin_android_aspectjx/issues/118)
+
 ### v2.0.2(2018-08-07)
 * [FIX]无法识别kotlin写的Aspect文件
 

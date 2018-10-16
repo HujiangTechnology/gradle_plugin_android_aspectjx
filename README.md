@@ -11,6 +11,8 @@ AspectJX
  
 ## 最近更新
 
+#### v2.0.4
+
 #### v2.0.2
 * 解决无法识别kotlin写的Aspect文件的Bug
 
@@ -48,7 +50,7 @@ AspectJX
 
 ```
  dependencies {
-        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.0'
+        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.4'
         }
 ```
 
