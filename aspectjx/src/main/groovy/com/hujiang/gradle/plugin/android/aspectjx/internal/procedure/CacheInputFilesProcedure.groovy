@@ -43,7 +43,7 @@ class CacheInputFilesProcedure extends AbsProcedure {
         // "**" 所有class文件和jar
         // "com.hujiang" 过滤 含"com.hujiang"的文件和jar
         //
-        println "~~~~~~~~~~~~~~~~~~~~cache input files"
+        project.logger.debug("~~~~~~~~~~~~~~~~~~~~cache input files")
         BatchTaskScheduler taskScheduler = new BatchTaskScheduler()
 
         transformInvocation.inputs.each { TransformInput input ->

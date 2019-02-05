@@ -23,6 +23,7 @@ import com.hujiang.gradle.plugin.android.aspectjx.internal.cache.VariantCache
 import org.apache.commons.io.FileUtils
 import org.objectweb.asm.ClassReader
 import org.objectweb.asm.ClassWriter
+import org.slf4j.LoggerFactory
 
 import java.lang.reflect.Type
 import java.util.jar.JarEntry
@@ -129,11 +130,10 @@ class AJXUtils {
     }
 
     /**
-     *
      * @param transformInvocation
      */
     static void doWorkWithNoAspectj(TransformInvocation transformInvocation) {
-        println "do nothing ~~~~~~~~~~~~~~~~~~~~~~~~"
+        LoggerFactory.getLogger('no-aspectj-logger').debug("do nothing ~~~~~~~~~~~~~~~~~~~~~~~~")
         if (transformInvocation.incremental) {
             incrementalCopyFiles(transformInvocation)
         } else {

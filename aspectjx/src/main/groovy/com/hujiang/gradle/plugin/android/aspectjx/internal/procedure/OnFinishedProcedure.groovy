@@ -31,7 +31,7 @@ class OnFinishedProcedure extends AbsProcedure {
 
     @Override
     boolean doWorkContinuously() {
-        println "~~~~~~~~~~~~~~~~~~~~onFinished"
+        project.logger.debug("~~~~~~~~~~~~~~~~~~~~onFinished")
         ajxCache.commit()
 
         return true

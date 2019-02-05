@@ -39,7 +39,7 @@ class UpdateAspectFilesProcedure extends AbsProcedure {
 
     @Override
     boolean doWorkContinuously() {
-        println "~~~~~~~~~~~~~~~~~~~~update aspect files"
+        project.logger.debug("~~~~~~~~~~~~~~~~~~~~update aspect files")
         //update aspect files
         BatchTaskScheduler taskScheduler = new BatchTaskScheduler()
 
@@ -50,7 +50,7 @@ class UpdateAspectFilesProcedure extends AbsProcedure {
                     Object call() throws Exception {
                         dirInput.changedFiles.each { File file, Status status ->
                             if (AJXUtils.isAspectClass(file)) {
-                                println "~~~~~~~~~~~collect aspect file from Dir:${file.absolutePath}"
+                                project.logger.debug("~~~~~~~~~~~collect aspect file from Dir:${file.absolutePath}")
                                 variantCache.incrementalStatus.isAspectChanged = true
                                 String path = file.absolutePath
                                 String subPath = path.substring(dirInput.file.absolutePath.length())
@@ -92,7 +92,7 @@ class UpdateAspectFilesProcedure extends AbsProcedure {
                                     byte[] bytes = ByteStreams.toByteArray(jarFile.getInputStream(jarEntry))
                                     File cacheFile = new File(variantCache.aspectPath + File.separator + entryName)
                                     if (AJXUtils.isAspectClass(bytes)) {
-                                        println "~~~~~~~~~~~~~~~~~collect aspect file from JAR:${entryName}"
+                                        project.logger.debug("~~~~~~~~~~~~~~~~~collect aspect file from JAR:${entryName}")
                                         variantCache.incrementalStatus.isAspectChanged = true
                                         if (jarInput.status == Status.REMOVED) {
                                             FileUtils.deleteQuietly(cacheFile)
