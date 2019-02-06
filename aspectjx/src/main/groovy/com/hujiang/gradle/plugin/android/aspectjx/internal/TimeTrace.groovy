@@ -15,7 +15,7 @@
  */
 package com.hujiang.gradle.plugin.android.aspectjx.internal
 
-import com.sun.istack.internal.logging.Logger
+import com.hujiang.gradle.plugin.android.aspectjx.AJXPlugin
 import org.gradle.BuildListener
 import org.gradle.BuildResult
 import org.gradle.api.Task
@@ -23,6 +23,7 @@ import org.gradle.api.execution.TaskExecutionListener
 import org.gradle.api.initialization.Settings
 import org.gradle.api.invocation.Gradle
 import org.gradle.api.tasks.TaskState
+import org.slf4j.LoggerFactory
 
 import java.util.concurrent.ConcurrentHashMap
 
@@ -59,7 +60,7 @@ class TimeTrace implements TaskExecutionListener, BuildListener {
 
     @Override
     void buildFinished(BuildResult result) {
-        Logger.getLogger("time-logger").debug("Tasks spend time > ${DISPLAY_TIME_THRESHOLD}ms:")
+        LoggerFactory.getLogger(AJXPlugin).debug("Tasks spend time > ${DISPLAY_TIME_THRESHOLD}ms:")
 
         times.sort { lhs, rhs -> -(lhs[0] - rhs[0]) }
                 .grep { it[0] > DISPLAY_TIME_THRESHOLD }
