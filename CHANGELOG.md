@@ -1,4 +1,4 @@
-### v2.0.5(Unreleased)
+### v2.0.5(2019-02-11)
 * Changed `println` usages for a SLF4J logger instance in DEBUG mode
 
 ### v2.0.4(2018-10-16)
