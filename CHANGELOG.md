@@ -1,3 +1,6 @@
+### v2.0.5(Unreleased)
+* Changed `println` usages for a SLF4J logger instance in DEBUG mode
+
 ### v2.0.4(2018-10-16)
 * [FIX] issue[#120](https://github.com/HujiangTechnology/gradle_plugin_android_aspectjx/issues/120)
 * [FIX] issue[#118](https://github.com/HujiangTechnology/gradle_plugin_android_aspectjx/issues/118)

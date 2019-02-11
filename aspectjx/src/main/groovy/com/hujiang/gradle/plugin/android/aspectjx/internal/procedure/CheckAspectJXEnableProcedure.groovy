@@ -33,7 +33,7 @@ class CheckAspectJXEnableProcedure extends AbsProcedure {
 
     @Override
     boolean doWorkContinuously() {
-        println "~~~~~~~~~~~~~~~~~~~~~~~ check aspectjx enable"
+        project.logger.debug("~~~~~~~~~~~~~~~~~~~~~~~ check aspectjx enable")
 
         //check if exclude all files or not
         boolean isExcludeAll = false

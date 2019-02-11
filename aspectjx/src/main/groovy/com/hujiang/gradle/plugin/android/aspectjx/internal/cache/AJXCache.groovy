@@ -83,7 +83,7 @@ class AJXCache {
     }
 
     void commit() {
-        println "putExtensionConfig:${extensionConfigFile}"
+        project.logger.debug("putExtensionConfig:${extensionConfigFile}")
 
         FileUtils.deleteQuietly(extensionConfigFile)
 
@@ -98,7 +98,7 @@ class AJXCache {
         }
 
         String jsonString = AJXUtils.optToJsonString(ajxExtensionConfig)
-        println "${jsonString}"
+        project.logger.debug("${jsonString}")
         FileUtils.write(extensionConfigFile, jsonString, "UTF-8")
     }
 

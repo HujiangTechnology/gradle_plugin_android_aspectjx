@@ -36,7 +36,7 @@ class UpdateInputFilesProcedure extends AbsProcedure {
 
     @Override
     boolean doWorkContinuously() {
-        println "~~~~~~~~~~~~~~~~~~~~update input files"
+        project.logger.debug("~~~~~~~~~~~~~~~~~~~~update input files")
         BatchTaskScheduler taskScheduler = new BatchTaskScheduler()
 
         transformInvocation.inputs.each { TransformInput input ->
@@ -45,7 +45,7 @@ class UpdateInputFilesProcedure extends AbsProcedure {
                     @Override
                     Object call() throws Exception {
                         dirInput.changedFiles.each { File file, Status status ->
-                            println "~~~~~~~~~~~~~~~~changed file::${status.name()}::${file.absolutePath}"
+                            project.logger.debug("~~~~~~~~~~~~~~~~changed file::${status.name()}::${file.absolutePath}")
 
                             variantCache.includeFileContentTypes = dirInput.contentTypes
                             variantCache.includeFileScopes = dirInput.scopes
@@ -106,7 +106,7 @@ class UpdateInputFilesProcedure extends AbsProcedure {
                     taskScheduler.addTask(new ITask() {
                         @Override
                         Object call() throws Exception {
-                            println "~~~~~~~changed file::${jarInput.status.name()}::${jarInput.file.absolutePath}"
+                            project.logger.debug("~~~~~~~changed file::${jarInput.status.name()}::${jarInput.file.absolutePath}")
 
                             String filePath = jarInput.file.absolutePath
                             File outputJar = transformInvocation.outputProvider.getContentLocation(jarInput.name, jarInput.contentTypes, jarInput.scopes, Format.JAR)

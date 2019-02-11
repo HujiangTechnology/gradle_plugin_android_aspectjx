@@ -19,10 +19,12 @@ import com.android.build.api.transform.*
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonSyntaxException
+import com.hujiang.gradle.plugin.android.aspectjx.AJXPlugin
 import com.hujiang.gradle.plugin.android.aspectjx.internal.cache.VariantCache
 import org.apache.commons.io.FileUtils
 import org.objectweb.asm.ClassReader
 import org.objectweb.asm.ClassWriter
+import org.slf4j.LoggerFactory
 
 import java.lang.reflect.Type
 import java.util.jar.JarEntry
@@ -129,11 +131,10 @@ class AJXUtils {
     }
 
     /**
-     *
      * @param transformInvocation
      */
     static void doWorkWithNoAspectj(TransformInvocation transformInvocation) {
-        println "do nothing ~~~~~~~~~~~~~~~~~~~~~~~~"
+        LoggerFactory.getLogger(AJXPlugin).debug("do nothing ~~~~~~~~~~~~~~~~~~~~~~~~")
         if (transformInvocation.incremental) {
             incrementalCopyFiles(transformInvocation)
         } else {
