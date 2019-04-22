@@ -44,7 +44,7 @@ class AJXProcedure extends AbsProcedure {
 
         project.afterEvaluate {
             configuration.variants.all { variant ->
-                JavaCompile javaCompile = variant.hasProperty('javaCompiler') ? variant.javaCompiler : variant.javaCompile
+                JavaCompile javaCompile = variant.hasProperty('javaCompiler') ? variant.javaCompileProvider.get() : variant.javaCompile
                 ajxCache.encoding = javaCompile.options.encoding
                 ajxCache.bootClassPath = configuration.bootClasspath.join(File.pathSeparator)
                 ajxCache.sourceCompatibility = javaCompile.sourceCompatibility
