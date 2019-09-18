@@ -1,3 +1,6 @@
+### v2.0.5(2019-09-18)
+* Replace `variant.getJavaCompiler()` with `variant.getJavaCompileProvider()`
+
 ### v2.0.5(2019-02-11)
 * Changed `println` usages for a SLF4J logger instance in DEBUG mode
 
