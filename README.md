@@ -11,6 +11,9 @@ AspectJX
  
 ## 最近更新
 
+#### v2.0.6
+* 修复了variant.getJavaCompiler() is obsolete 的问题
+
 #### v2.0.4
 
 #### v2.0.2
@@ -50,7 +53,7 @@ AspectJX
 
 ```
  dependencies {
-        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.4'
+        classpath 'com.github.franticn:gradle_plugin_android_aspectjx:2.0.6'
         }
 ```
 

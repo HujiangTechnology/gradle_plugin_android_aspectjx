@@ -44,7 +44,13 @@ class AJXProcedure extends AbsProcedure {
 
         project.afterEvaluate {
             configuration.variants.all { variant ->
-                JavaCompile javaCompile = variant.hasProperty('javaCompiler') ? variant.javaCompileProvider.get() : variant.javaCompile
+                JavaCompile javaCompile
+                if (variant.hasProperty('javaCompileProvider')) {
+                    //android gradle 3.3.0 + 
+                    javaCompile = variant.javaCompileProvider.get()
+                } else {
+                    javaCompile = variant.javaCompile
+                }
                 ajxCache.encoding = javaCompile.options.encoding
                 ajxCache.bootClassPath = configuration.bootClasspath.join(File.pathSeparator)
                 ajxCache.sourceCompatibility = javaCompile.sourceCompatibility
