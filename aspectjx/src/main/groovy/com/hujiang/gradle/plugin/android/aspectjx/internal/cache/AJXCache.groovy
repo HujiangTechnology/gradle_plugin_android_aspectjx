@@ -41,7 +41,6 @@ class AJXCache {
     String bootClassPath
     String sourceCompatibility
     String targetCompatibility
-    List<String> ajcArgs = new ArrayList<>()
 
     AJXCache(Project proj) {
         this.project = proj
