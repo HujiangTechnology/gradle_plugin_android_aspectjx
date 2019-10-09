@@ -64,8 +64,6 @@ class AJXProcedure extends AbsProcedure {
             }
 
             ajxCache.putExtensionConfig(ajxExtension)
-
-            ajxCache.ajcArgs = ajxExtension.ajcArgs
         }
 
         //set aspectj build log output dir
