@@ -58,6 +58,8 @@ class AJXProcedure extends AbsProcedure {
             }
 
             AJXExtension ajxExtension = project.aspectjx
+            project.logger.info "project.aspectjx=${ajxExtension}"
+
             //当过滤条件发生变化，clean掉编译缓存
             if (ajxCache.isExtensionChanged(ajxExtension)) {
                 project.tasks.findByName('preBuild').dependsOn(project.tasks.findByName("clean"))

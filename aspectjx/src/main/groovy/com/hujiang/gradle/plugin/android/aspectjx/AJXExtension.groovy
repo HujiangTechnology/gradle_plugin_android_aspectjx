@@ -55,4 +55,15 @@ class AJXExtension {
 
         return this
     }
+
+
+    @Override
+    public String toString() {
+        return "AJXExtension{" +
+                "includes=" + Arrays.toString(includes) +
+                ", excludes=" + Arrays.toString(excludes) +
+                ", ajcArgs=" + Arrays.toString(ajcArgs) +
+                ", enabled=" + enabled +
+                '}';
+    }
 }
