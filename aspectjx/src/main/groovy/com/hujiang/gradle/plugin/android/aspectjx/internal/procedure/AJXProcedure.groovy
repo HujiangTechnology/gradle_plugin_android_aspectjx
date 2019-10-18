@@ -43,19 +43,22 @@ class AJXProcedure extends AbsProcedure {
         def configuration = new AJXConfig(project)
 
         project.afterEvaluate {
-            configuration.variants.all { variant ->
+            def variants = configuration.variants
+            if (variants && !variants.isEmpty()) {
+                def variant = variants[0]
                 JavaCompile javaCompile
                 if (variant.hasProperty('javaCompileProvider')) {
-                    //android gradle 3.3.0 + 
+                    //android gradle 3.3.0 +
                     javaCompile = variant.javaCompileProvider.get()
                 } else {
                     javaCompile = variant.javaCompile
                 }
+
                 ajxCache.encoding = javaCompile.options.encoding
-                ajxCache.bootClassPath = configuration.bootClasspath.join(File.pathSeparator)
                 ajxCache.sourceCompatibility = javaCompile.sourceCompatibility
                 ajxCache.targetCompatibility = javaCompile.targetCompatibility
             }
+            ajxCache.bootClassPath = configuration.bootClasspath.join(File.pathSeparator)
 
             AJXExtension ajxExtension = project.aspectjx
             project.logger.info "project.aspectjx=${ajxExtension}"
