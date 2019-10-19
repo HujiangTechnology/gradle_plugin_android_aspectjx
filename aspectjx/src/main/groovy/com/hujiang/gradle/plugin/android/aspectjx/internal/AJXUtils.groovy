@@ -71,15 +71,15 @@ class AJXUtils {
     static FileType fileType(File file) {
         String filePath = file?.getAbsolutePath()
 
-        if (filePath?.toLowerCase().endsWith('.java')) {
+        if (filePath?.toLowerCase()?.endsWith('.java')) {
             return FileType.JAVA
-        } else if (filePath?.toLowerCase().endsWith('.class')) {
+        } else if (filePath?.toLowerCase()?.endsWith('.class')) {
             return FileType.CLASS
-        } else if (filePath?.toLowerCase().endsWith('.jar')) {
+        } else if (filePath?.toLowerCase()?.endsWith('.jar')) {
             return FileType.JAR
-        } else if (filePath?.toLowerCase().endsWith('.kt')) {
+        } else if (filePath?.toLowerCase()?.endsWith('.kt')) {
             return FileType.KOTLIN
-        } else if (filePath?.toLowerCase().endsWith('.groovy')) {
+        } else if (filePath?.toLowerCase()?.endsWith('.groovy')) {
             return FileType.GROOVY
         } else {
             return FileType.DEFAULT
@@ -91,7 +91,7 @@ class AJXUtils {
     }
 
     static boolean isClassFile(String filePath) {
-        return filePath?.toLowerCase().endsWith('.class')
+        return filePath?.toLowerCase()?.endsWith('.class')
     }
 
     static <T> T fromJsonStringThrowEx(String jsonString, Class<T> clazz) throws JsonSyntaxException {
