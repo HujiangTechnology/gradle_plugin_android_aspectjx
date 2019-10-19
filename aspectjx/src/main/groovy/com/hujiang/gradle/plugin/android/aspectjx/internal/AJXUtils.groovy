@@ -151,7 +151,7 @@ class AJXUtils {
         transformInvocation.inputs.each { TransformInput input ->
             input.directoryInputs.each { DirectoryInput dirInput->
                 File excludeJar = transformInvocation.getOutputProvider().getContentLocation("exclude", dirInput.contentTypes, dirInput.scopes, Format.JAR)
-                AJXUtils.mergeJar(dirInput.file, excludeJar)
+                mergeJar(dirInput.file, excludeJar)
             }
 
             input.jarInputs.each { JarInput jarInput->
@@ -169,7 +169,7 @@ class AJXUtils {
             input.directoryInputs.each {DirectoryInput dirInput ->
                 if (dirInput.changedFiles.size() > 0) {
                     File excludeJar = transformInvocation.getOutputProvider().getContentLocation("exclude", dirInput.contentTypes, dirInput.scopes, Format.JAR)
-                    AJXUtils.mergeJar(dirInput.file, excludeJar)
+                    mergeJar(dirInput.file, excludeJar)
                 }
             }
 
