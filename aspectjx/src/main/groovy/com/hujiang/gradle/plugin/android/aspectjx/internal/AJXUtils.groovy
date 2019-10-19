@@ -102,7 +102,7 @@ class AJXUtils {
         try {
             return gson.fromJson(jsonString, clazz)
         } catch (Throwable e) {
-            e.printStackTrace()
+            LoggerFactory.getLogger(AJXPlugin).warn("optFromJsonString(${jsonString}, ${clazz}", e)
         }
         return null
     }
@@ -115,7 +115,7 @@ class AJXUtils {
         try {
             return gson.fromJson(json, typeOfT)
         } catch (JsonSyntaxException var3) {
-            var3.printStackTrace()
+            LoggerFactory.getLogger(AJXPlugin).warn("optFromJsonString(${json}, ${typeOfT}", var3)
         }
         return null
     }
@@ -128,7 +128,7 @@ class AJXUtils {
         try {
             return getGson().toJson(object)
         } catch (Throwable var2) {
-            var2.printStackTrace()
+            LoggerFactory.getLogger(AJXPlugin).warn("optToJsonString(${object}", var2)
         }
         return null
     }
@@ -352,7 +352,7 @@ class AJXUtils {
 
             jarMerger.addFolder(sourceDir)
         } catch (Exception e) {
-            e.printStackTrace()
+            LoggerFactory.getLogger(AJXPlugin).warn("mergeJar(${sourceDir}, ${targetJar}", e)
         } finally {
             jarMerger.close()
         }
