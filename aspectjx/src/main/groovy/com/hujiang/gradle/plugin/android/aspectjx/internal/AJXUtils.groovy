@@ -104,6 +104,7 @@ class AJXUtils {
         } catch (Throwable e) {
             e.printStackTrace()
         }
+        return null
     }
 
     static <T> T fromJsonStringThrowEx(String jsonString, Type typeOfT) throws JsonSyntaxException {
@@ -116,6 +117,7 @@ class AJXUtils {
         } catch (JsonSyntaxException var3) {
             var3.printStackTrace()
         }
+        return null
     }
 
     static String toJsonStringThrowEx(Object object) throws Exception  {
@@ -128,6 +130,7 @@ class AJXUtils {
         } catch (Throwable var2) {
             var2.printStackTrace()
         }
+        return null
     }
 
     /**
