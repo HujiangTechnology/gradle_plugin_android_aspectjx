@@ -71,15 +71,15 @@ class AJXUtils {
     static FileType fileType(File file) {
         String filePath = file?.getAbsolutePath()
 
-        if (filePath?.toLowerCase().endsWith('.java')) {
+        if (filePath?.toLowerCase()?.endsWith('.java')) {
             return FileType.JAVA
-        } else if (filePath?.toLowerCase().endsWith('.class')) {
+        } else if (filePath?.toLowerCase()?.endsWith('.class')) {
             return FileType.CLASS
-        } else if (filePath?.toLowerCase().endsWith('.jar')) {
+        } else if (filePath?.toLowerCase()?.endsWith('.jar')) {
             return FileType.JAR
-        } else if (filePath?.toLowerCase().endsWith('.kt')) {
+        } else if (filePath?.toLowerCase()?.endsWith('.kt')) {
             return FileType.KOTLIN
-        } else if (filePath?.toLowerCase().endsWith('.groovy')) {
+        } else if (filePath?.toLowerCase()?.endsWith('.groovy')) {
             return FileType.GROOVY
         } else {
             return FileType.DEFAULT
@@ -91,7 +91,7 @@ class AJXUtils {
     }
 
     static boolean isClassFile(String filePath) {
-        return filePath?.toLowerCase().endsWith('.class')
+        return filePath?.toLowerCase()?.endsWith('.class')
     }
 
     static <T> T fromJsonStringThrowEx(String jsonString, Class<T> clazz) throws JsonSyntaxException {
@@ -102,8 +102,9 @@ class AJXUtils {
         try {
             return gson.fromJson(jsonString, clazz)
         } catch (Throwable e) {
-            e.printStackTrace()
+            LoggerFactory.getLogger(AJXPlugin).warn("optFromJsonString(${jsonString}, ${clazz}", e)
         }
+        return null
     }
 
     static <T> T fromJsonStringThrowEx(String jsonString, Type typeOfT) throws JsonSyntaxException {
@@ -114,8 +115,9 @@ class AJXUtils {
         try {
             return gson.fromJson(json, typeOfT)
         } catch (JsonSyntaxException var3) {
-            var3.printStackTrace()
+            LoggerFactory.getLogger(AJXPlugin).warn("optFromJsonString(${json}, ${typeOfT}", var3)
         }
+        return null
     }
 
     static String toJsonStringThrowEx(Object object) throws Exception  {
@@ -126,8 +128,9 @@ class AJXUtils {
         try {
             return getGson().toJson(object)
         } catch (Throwable var2) {
-            var2.printStackTrace()
+            LoggerFactory.getLogger(AJXPlugin).warn("optToJsonString(${object}", var2)
         }
+        return null
     }
 
     /**
@@ -148,7 +151,7 @@ class AJXUtils {
         transformInvocation.inputs.each { TransformInput input ->
             input.directoryInputs.each { DirectoryInput dirInput->
                 File excludeJar = transformInvocation.getOutputProvider().getContentLocation("exclude", dirInput.contentTypes, dirInput.scopes, Format.JAR)
-                AJXUtils.mergeJar(dirInput.file, excludeJar)
+                mergeJar(dirInput.file, excludeJar)
             }
 
             input.jarInputs.each { JarInput jarInput->
@@ -166,7 +169,7 @@ class AJXUtils {
             input.directoryInputs.each {DirectoryInput dirInput ->
                 if (dirInput.changedFiles.size() > 0) {
                     File excludeJar = transformInvocation.getOutputProvider().getContentLocation("exclude", dirInput.contentTypes, dirInput.scopes, Format.JAR)
-                    AJXUtils.mergeJar(dirInput.file, excludeJar)
+                    mergeJar(dirInput.file, excludeJar)
                 }
             }
 
@@ -349,7 +352,7 @@ class AJXUtils {
 
             jarMerger.addFolder(sourceDir)
         } catch (Exception e) {
-            e.printStackTrace()
+            LoggerFactory.getLogger(AJXPlugin).warn("mergeJar(${sourceDir}, ${targetJar}", e)
         } finally {
             jarMerger.close()
         }
