@@ -53,7 +53,7 @@ AspectJX
 
 ```
  dependencies {
-        classpath 'com.github.franticn:gradle_plugin_android_aspectjx:2.0.6'
+        classpath 'com.hujiang.aspectjx:gradle_plugin_android_aspectjx:2.0.8'
         }
 ```
 
