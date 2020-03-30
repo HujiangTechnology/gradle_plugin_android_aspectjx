@@ -1,5 +1,5 @@
 project.ext {
-    aspectjVersion = '1.8.13'
+    aspectjVersion = '1.9.5'
     Properties properties = new Properties()
     if (project.file('local.properties').exists()) {
         properties.load(project.file('local.properties').newDataInputStream())

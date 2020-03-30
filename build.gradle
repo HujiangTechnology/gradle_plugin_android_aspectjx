@@ -3,12 +3,8 @@ apply from: 'ext.gradle'
 buildscript {
     repositories {
         mavenLocal()
-        mavenCentral()
+        google()
         jcenter()
-    }
-
-    dependencies {
-//        classpath 'org.aspectj:aspectjtools:1.8.9'
     }
 }
 
@@ -16,9 +12,9 @@ allprojects {
     buildscript {
         repositories {
             mavenLocal()
-            mavenCentral()
+            google()
             jcenter {
-               url 'http://jcenter.bintray.com'
+               url 'https://jcenter.bintray.com'
             }
         }
     }
@@ -26,16 +22,12 @@ allprojects {
     dependencies {
         repositories {
             mavenLocal()
-            mavenCentral()
+            google()
             jcenter {
-                url 'http://jcenter.bintray.com'
+                url 'https://jcenter.bintray.com'
             }
         }
     }
 
     apply plugin: 'maven'
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.14.1'
 }

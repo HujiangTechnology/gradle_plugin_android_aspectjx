@@ -1,12 +1,14 @@
 buildscript {
     repositories {
         mavenLocal()
+        google()
         jcenter()
     }
 
     dependencies {
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.6'
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.1'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.9.9'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
     }
 }
 
@@ -26,13 +28,14 @@ jar {
 dependencies {
     repositories {
         mavenLocal()
+        google()
         jcenter()
     }
 
     compile gradleApi()
     compile localGroovy()
 
-    compile 'com.android.tools.build:gradle:2.1.2'
+    compile 'com.android.tools.build:gradle:3.6.1'
 //    compile "org.aspectj:aspectjtools:1.8.13"
     compile 'com.android.tools.build:transform-api:1.5.0'
     compile 'com.google.code.gson:gson:2.8.2'

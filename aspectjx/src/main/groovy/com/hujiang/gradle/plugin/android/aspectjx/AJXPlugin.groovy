@@ -40,10 +40,10 @@ class AJXPlugin implements Plugin<Project> {
         project.dependencies {
             if (project.gradle.gradleVersion > "4.0") {
                 project.logger.debug("gradlew version > 4.0")
-                implementation 'org.aspectj:aspectjrt:1.8.9'
+                implementation 'org.aspectj:aspectjrt:1.9.5'
             } else {
                 project.logger.debug("gradlew version < 4.0")
-                compile 'org.aspectj:aspectjrt:1.8.9'
+                compile 'org.aspectj:aspectjrt:1.9.5'
             }
         }
 

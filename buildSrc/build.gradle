@@ -1,6 +1,6 @@
 repositories {
     mavenLocal()
-    mavenCentral()
+    google()
     jcenter()
 }
 
@@ -20,6 +20,6 @@ apply from: '../ext.gradle'
 }
 
 dependencies {
-    runtime 'com.android.tools.build:gradle:2.1.2'
+    runtime 'com.android.tools.build:gradle:3.6.1'
     runtime project(':aspectjx')
 }
