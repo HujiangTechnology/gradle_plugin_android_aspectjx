@@ -16,8 +16,8 @@ buildscript {
 apply plugin: 'groovy'
 apply plugin: 'maven'
 
-targetCompatibility = JavaVersion.VERSION_1_7
-sourceCompatibility = JavaVersion.VERSION_1_7
+targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = JavaVersion.VERSION_1_8
 
 jar {
     from {
@@ -36,12 +36,11 @@ dependencies {
     compile localGroovy()
 
     compile 'com.android.tools.build:gradle:3.6.1'
-//    compile "org.aspectj:aspectjtools:1.8.13"
-    compile 'com.android.tools.build:transform-api:1.5.0'
+    compile "org.aspectj:aspectjtools:1.9.6"
     compile 'com.google.code.gson:gson:2.8.2'
 
 //    compile 'commons-io:commons-io:2.4'
-    compile files('libs/aspectjtools.jar')
+//    compile files('libs/aspectjtools.jar')
 }
 
 apply from: 'bintray.gradle'
