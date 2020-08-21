@@ -13,6 +13,8 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
+tasks.withType(Javadoc).all { enabled = false }
+
 task sourceJar(type: Jar) {
     classifier = 'sources'
     from sourceSets.main.allSource

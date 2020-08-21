@@ -1,2 +1,0 @@
-include ':aspectjx'
-project(':aspectjx').projectDir = new File('../aspectjx')
