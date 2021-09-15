@@ -32,7 +32,7 @@ class AJXTaskManager {
     String sourceCompatibility
     String targetCompatibility
 
-    BatchTaskScheduler batchTaskScheduler = new BatchTaskScheduler()
+    BatchTaskScheduler batchTaskScheduler = new BatchTaskScheduler(1)
 
     AJXTaskManager() {
     }
