@@ -32,6 +32,10 @@ class BatchTaskScheduler {
         executorService = Executors.newScheduledThreadPool(Runtime.runtime.availableProcessors() + 1)
     }
 
+    BatchTaskScheduler(int count) {
+        executorService = Executors.newScheduledThreadPool(count)
+    }
+
     public <T extends ITask> void addTask(T task) {
         tasks << task
     }
